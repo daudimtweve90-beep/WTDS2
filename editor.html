@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>TTSS Skin Editor</title>
 
@@ -16,9 +20,9 @@ padding:0;
 
 body{
 font-family:Arial,sans-serif;
-background:#090b0e;
-color:white;
-overflow-x:hidden;
+background:#080a0d;
+color:#fff;
+min-height:100vh;
 }
 
 header{
@@ -26,18 +30,18 @@ height:60px;
 background:#111419;
 display:flex;
 align-items:center;
+gap:14px;
 padding:0 15px;
-gap:15px;
 position:sticky;
 top:0;
-z-index:10;
+z-index:100;
 }
 
 header button{
 background:none;
 border:0;
-color:white;
-font-size:22px;
+color:#fff;
+font-size:25px;
 }
 
 header h1{
@@ -45,20 +49,20 @@ font-size:18px;
 }
 
 .editor{
-max-width:1100px;
+max-width:1200px;
 margin:auto;
-padding:15px;
+padding:14px;
 }
 
-.canvas-area{
+.preview-box{
 background:#111419;
+padding:12px;
 border-radius:18px;
-padding:15px;
 }
 
-.canvas-title{
-font-size:13px;
-color:#aaa;
+.title{
+font-size:12px;
+color:#888;
 margin-bottom:10px;
 }
 
@@ -66,37 +70,43 @@ margin-bottom:10px;
 position:relative;
 width:100%;
 aspect-ratio:16/9;
-background:#20252c;
-overflow:hidden;
+background:#252a30;
 border-radius:12px;
+overflow:hidden;
+touch-action:none;
 }
 
 #canvas img{
 position:absolute;
+left:0;
+top:0;
 width:100%;
 height:100%;
 object-fit:contain;
-left:0;
-top:0;
 }
 
-.truck-preview{
+.truck{
 position:absolute;
 inset:0;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:100px;
-opacity:.18;
+font-size:90px;
+opacity:.16;
 pointer-events:none;
 }
 
 .text-layer{
 position:absolute;
-cursor:move;
-user-select:none;
+left:30px;
+top:30px;
+font-size:40px;
 font-weight:900;
 white-space:nowrap;
+cursor:move;
+user-select:none;
+touch-action:none;
+transform-origin:center;
 }
 
 .selected{
@@ -104,7 +114,1111 @@ outline:2px dashed #00d26a;
 }
 
 .tools{
-margin-top:15px;
+margin-top:14px;
+background:#111419;
+padding:12px;
+border-radius:18px;
+}
+
+.tool-row{
+display:flex;
+gap:8px;
+overflow-x:auto;
+padding-bottom:10px;
+}
+
+.tool{
+white-space:nowrap;
+border:1px solid #30353c;
+background:#171b20;
+color:#fff;
+padding:11px 14px;
+border-radius:12px;
+font-size:13px;
+}
+
+.panel{
+background:#171b20;
+border-radius:14px;
+padding:12px;
+margin-top:10px;
+}
+
+.panel-title{
+font-weight:bold;
+font-size:13px;
+margin-bottom:10px;
+color:#ddd;
+}
+
+.styles{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:7px;
+}
+
+.style{
+background:#0d1013;
+border:1px solid #30353c;
+color:#fff;
+padding:10px 5px;
+border-radius:9px;
+font-size:11px;
+}
+
+input[type="text"]{
+width:100%;
+background:#0c0f12;
+border:1px solid #30353c;
+color:#fff;
+padding:12px;
+border-radius:10px;
+outline:none;
+}
+
+input[type="range"]{
+width:100%;
+}
+
+input[type="color"]{
+width:55px;
+height:40px;
+border:0;
+background:none;
+}
+
+.control-row{
+display:grid;
+grid-template-columns:1fr auto;
+align-items:center;
+gap:10px;
+margin-top:10px;
+}
+
+.control-label{
+font-size:11px;
+color:#999;
+}
+
+.value{
+font-size:11px;
+color:#00d26a;
+}
+
+.actions{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:9px;
+margin-top:12px;
+}
+
+.action{
+padding:15px;
+border:0;
+border-radius:12px;
+font-weight:bold;
+}
+
+.export{
+background:#00d26a;
+color:#000;
+}
+
+.share{
+background:#222831;
+color:#fff;
+}
+
+@media(min-width:800px){
+
+.editor{
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:18px;
+}
+
+.tools{
+margin-top:0;
+height:max-content;
+}
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<button onclick="goHome()">←</button>
+
+<h1>🎨 TTSS Skin Editor</h1>
+
+</header>
+
+
+<div class="editor">
+
+
+<div class="preview-box">
+
+<div class="title">
+SKIN PREVIEW
+</div>
+
+<div id="canvas">
+
+<div class="truck">
+🚛
+</div>
+
+</div>
+
+</div>
+
+
+<div class="tools">
+
+
+<div class="tool-row">
+
+<button class="tool"
+onclick="addText()">
+✍️ Text
+</button>
+
+<button class="tool"
+onclick="chooseImage()">
+🖼️ Image
+</button>
+
+<button class="tool"
+onclick="changeBackground()">
+🎨 Background
+</button>
+
+<button class="tool"
+onclick="deleteSelected()">
+🗑️ Delete
+</button>
+
+</div>
+
+
+<div class="panel">
+
+<div class="panel-title">
+TEXT
+</div>
+
+<input
+type="text"
+id="textInput"
+placeholder="Andika text..."
+oninput="updateText()"
+>
+
+</div>
+
+
+<div class="panel">
+
+<div class="panel-title">
+TEXT STYLE
+</div>
+
+<div class="styles">
+
+<button class="style"
+onclick="styleNormal()">
+Normal
+</button>
+
+<button class="style"
+onclick="styleBold()">
+Bold
+</button>
+
+<button class="style"
+onclick="styleItalic()">
+Italic
+</button>
+
+<button class="style"
+onclick="styleOutline()">
+Outline
+</button>
+
+<button class="style"
+onclick="styleShadow()">
+Shadow
+</button>
+
+<button class="style"
+onclick="styleGlow()">
+Glow
+</button>
+
+<button class="style"
+onclick="style3D()">
+3D
+</button>
+
+<button class="style"
+onclick="styleChrome()">
+Chrome
+</button>
+
+<button class="style"
+onclick="styleSticker()">
+Sticker
+</button>
+
+<button class="style"
+onclick="styleGradient()">
+Gradient
+</button>
+
+<button class="style"
+onclick="styleWave()">
+Wave
+</button>
+
+<button class="style"
+onclick="styleReset()">
+Reset
+</button>
+
+</div>
+
+</div>
+
+
+<div class="panel">
+
+<div class="panel-title">
+TEXT COLOR
+</div>
+
+<input
+type="color"
+id="color"
+value="#ffffff"
+oninput="updateColor()"
+>
+
+
+<div class="control-row">
+
+<div>
+
+<div class="control-label">
+SIZE
+</div>
+
+<input
+type="range"
+id="size"
+min="10"
+max="120"
+value="40"
+oninput="updateSize()"
+>
+
+</div>
+
+<div class="value"
+id="sizeValue">
+40
+</div>
+
+</div>
+
+
+<div class="control-row">
+
+<div>
+
+<div class="control-label">
+BEND / ARC
+</div>
+
+<input
+type="range"
+id="bend"
+min="-180"
+max="180"
+value="0"
+oninput="updateBend()"
+>
+
+</div>
+
+<div class="value"
+id="bendValue">
+0°
+</div>
+
+</div>
+
+
+<div class="control-row">
+
+<div>
+
+<div class="control-label">
+ROTATE
+</div>
+
+<input
+type="range"
+id="rotate"
+min="-180"
+max="180"
+value="0"
+oninput="updateRotate()"
+>
+
+</div>
+
+<div class="value"
+id="rotateValue">
+0°
+</div>
+
+</div>
+
+
+<div class="control-row">
+
+<div>
+
+<div class="control-label">
+STRETCH
+</div>
+
+<input
+type="range"
+id="stretch"
+min="50"
+max="200"
+value="100"
+oninput="updateStretch()"
+>
+
+</div>
+
+<div class="value"
+id="stretchValue">
+100%
+</div>
+
+</div>
+
+
+<div class="control-row">
+
+<div>
+
+<div class="control-label">
+OPACITY
+</div>
+
+<input
+type="range"
+id="opacity"
+min="0"
+max="1"
+step="0.05"
+value="1"
+oninput="updateOpacity()"
+>
+
+</div>
+
+<div class="value"
+id="opacityValue">
+100%
+</div>
+
+</div>
+
+</div>
+
+
+<div class="actions">
+
+<button
+class="action export"
+onclick="exportSkin()">
+💾 EXPORT PNG
+</button>
+
+<button
+class="action share"
+onclick="shareSkin()">
+📤 SHARE
+</button>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<input
+type="file"
+id="imageInput"
+accept="image/*"
+style="display:none"
+onchange="loadImage(event)"
+>
+
+
+<script>
+
+let selected=null;
+
+let dragData=null;
+
+
+function goHome(){
+
+window.location.href="index.html";
+
+}
+
+
+function addText(){
+
+const text=
+document.createElement("div");
+
+text.className="text-layer";
+
+text.innerText="TANZANIA";
+
+text.style.left="30px";
+
+text.style.top="30px";
+
+text.style.fontSize="40px";
+
+text.style.color="#ffffff";
+
+text.style.fontWeight="900";
+
+text.style.opacity="1";
+
+text.dataset.bend="0";
+
+text.dataset.rotate="0";
+
+text.dataset.stretch="100";
+
+document
+.getElementById("canvas")
+.appendChild(text);
+
+makeDraggable(text);
+
+selectText(text);
+
+}
+
+
+function makeDraggable(el){
+
+el.addEventListener(
+"pointerdown",
+function(e){
+
+e.preventDefault();
+
+selectText(el);
+
+dragData={
+
+x:e.clientX,
+
+y:e.clientY,
+
+left:parseFloat(el.style.left)||0,
+
+top:parseFloat(el.style.top)||0
+
+};
+
+el.setPointerCapture(e.pointerId);
+
+});
+
+
+el.addEventListener(
+"pointermove",
+function(e){
+
+if(!dragData)return;
+
+let dx=
+e.clientX-dragData.x;
+
+let dy=
+e.clientY-dragData.y;
+
+el.style.left=
+(dragData.left+dx)+"px";
+
+el.style.top=
+(dragData.top+dy)+"px";
+
+});
+
+
+el.addEventListener(
+"pointerup",
+function(){
+
+dragData=null;
+
+});
+
+}
+
+
+function selectText(el){
+
+if(selected){
+
+selected.classList.remove(
+"selected"
+);
+
+}
+
+selected=el;
+
+selected.classList.add(
+"selected"
+);
+
+document
+.getElementById("textInput")
+.value=
+selected.innerText;
+
+document
+.getElementById("size")
+.value=
+parseInt(selected.style.fontSize)||40;
+
+document
+.getElementById("opacity")
+.value=
+selected.style.opacity||1;
+
+document
+.getElementById("bend")
+.value=
+selected.dataset.bend||0;
+
+document
+.getElementById("rotate")
+.value=
+selected.dataset.rotate||0;
+
+document
+.getElementById("stretch")
+.value=
+selected.dataset.stretch||100;
+
+}
+
+
+function updateText(){
+
+if(!selected)return;
+
+selected.innerText=
+document
+.getElementById("textInput")
+.value;
+
+}
+
+
+function updateColor(){
+
+if(!selected)return;
+
+selected.style.color=
+document
+.getElementById("color")
+.value;
+
+}
+
+
+function updateSize(){
+
+if(!selected)return;
+
+let value=
+document
+.getElementById("size")
+.value;
+
+selected.style.fontSize=
+value+"px";
+
+document
+.getElementById("sizeValue")
+.innerText=
+value;
+
+}
+
+
+function updateOpacity(){
+
+if(!selected)return;
+
+let value=
+document
+.getElementById("opacity")
+.value;
+
+selected.style.opacity=
+value;
+
+document
+.getElementById("opacityValue")
+.innerText=
+Math.round(value*100)+"%";
+
+}
+
+
+function updateRotate(){
+
+if(!selected)return;
+
+let value=
+document
+.getElementById("rotate")
+.value;
+
+selected.dataset.rotate=value;
+
+applyTransform();
+
+document
+.getElementById("rotateValue")
+.innerText=
+value+"°";
+
+}
+
+
+function updateStretch(){
+
+if(!selected)return;
+
+let value=
+document
+.getElementById("stretch")
+.value;
+
+selected.dataset.stretch=value;
+
+applyTransform();
+
+document
+.getElementById("stretchValue")
+.innerText=
+value+"%";
+
+}
+
+
+function updateBend(){
+
+if(!selected)return;
+
+let value=
+document
+.getElementById("bend")
+.value;
+
+selected.dataset.bend=value;
+
+document
+.getElementById("bendValue")
+.innerText=
+value+"°";
+
+applyTransform();
+
+}
+
+
+function applyTransform(){
+
+if(!selected)return;
+
+let rotate=
+selected.dataset.rotate||0;
+
+let stretch=
+selected.dataset.stretch||100;
+
+let bend=
+selected.dataset.bend||0;
+
+selected.style.transform=
+"rotate("+rotate+"deg) "+
+"scaleX("+stretch/100+") "+
+"skewX("+bend/8+"deg)";
+
+}
+
+
+function styleNormal(){
+
+if(!selected)return;
+
+selected.style.fontWeight="normal";
+
+selected.style.fontStyle="normal";
+
+selected.style.textShadow="none";
+
+selected.style.webkitTextStroke="0px transparent";
+
+}
+
+
+function styleBold(){
+
+if(!selected)return;
+
+selected.style.fontWeight="900";
+
+selected.style.fontStyle="normal";
+
+}
+
+
+function styleItalic(){
+
+if(!selected)return;
+
+selected.style.fontStyle="italic";
+
+}
+
+
+function styleOutline(){
+
+if(!selected)return;
+
+selected.style.fontWeight="900";
+
+selected.style.webkitTextStroke=
+"2px #000";
+
+selected.style.textShadow="none";
+
+}
+
+
+function styleShadow(){
+
+if(!selected)return;
+
+selected.style.textShadow=
+"5px 5px 5px #000";
+
+}
+
+
+function styleGlow(){
+
+if(!selected)return;
+
+selected.style.textShadow=
+"0 0 8px #00d26a,"+
+"0 0 18px #00d26a";
+
+}
+
+
+function style3D(){
+
+if(!selected)return;
+
+selected.style.fontWeight="900";
+
+selected.style.textShadow=
+"3px 3px 0 #222,"+
+"6px 6px 0 #000";
+
+}
+
+
+function styleChrome(){
+
+if(!selected)return;
+
+selected.style.background=
+"linear-gradient(#fff,#777,#fff)";
+
+selected.style.webkitBackgroundClip=
+"text";
+
+selected.style.webkitTextFillColor=
+"transparent";
+
+}
+
+
+function styleSticker(){
+
+if(!selected)return;
+
+selected.style.fontWeight="900";
+
+selected.style.webkitTextStroke=
+"5px #fff";
+
+selected.style.textShadow=
+"4px 4px 0 #000";
+
+}
+
+
+function styleGradient(){
+
+if(!selected)return;
+
+selected.style.background=
+"linear-gradient(90deg,#ff0000,#ffff00,#00ff00,#00ffff,#0000ff)";
+
+selected.style.webkitBackgroundClip=
+"text";
+
+selected.style.webkitTextFillColor=
+"transparent";
+
+}
+
+
+function styleWave(){
+
+if(!selected)return;
+
+selected.style.textShadow=
+"0 8px 0 rgba(0,210,106,.35)";
+
+selected.style.transform=
+"skewY(-5deg)";
+
+}
+
+
+function styleReset(){
+
+if(!selected)return;
+
+selected.style.fontWeight="900";
+
+selected.style.fontStyle="normal";
+
+selected.style.textShadow="none";
+
+selected.style.webkitTextStroke="0px transparent";
+
+selected.style.background="none";
+
+selected.style.webkitBackgroundClip="initial";
+
+selected.style.webkitTextFillColor=
+selected.style.color;
+
+selected.dataset.bend="0";
+
+selected.dataset.rotate="0";
+
+selected.dataset.stretch="100";
+
+document.getElementById("bend").value=0;
+
+document.getElementById("rotate").value=0;
+
+document.getElementById("stretch").value=100;
+
+applyTransform();
+
+}
+
+
+function chooseImage(){
+
+document
+.getElementById("imageInput")
+.click();
+
+}
+
+
+function loadImage(event){
+
+const file=
+event.target.files[0];
+
+if(!file)return;
+
+const reader=
+new FileReader();
+
+reader.onload=function(e){
+
+const img=
+document.createElement("img");
+
+img.src=e.target.result;
+
+img.style.zIndex="2";
+
+document
+.getElementById("canvas")
+.appendChild(img);
+
+};
+
+reader.readAsDataURL(file);
+
+}
+
+
+function changeBackground(){
+
+const color=
+prompt(
+"Ingiza color, mfano #ff0000"
+);
+
+if(color){
+
+document
+.getElementById("canvas")
+.style.background=
+color;
+
+}
+
+}
+
+
+function deleteSelected(){
+
+if(!selected){
+
+alert("Chagua text kwanza.");
+
+return;
+
+}
+
+selected.remove();
+
+selected=null;
+
+}
+
+
+function exportSkin(){
+
+const script=
+document.createElement("script");
+
+script.src=
+"https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
+
+script.onload=function(){
+
+html2canvas(
+document.getElementById("canvas"),
+{
+backgroundColor:null,
+scale:3
+}
+).then(function(canvas){
+
+const link=
+document.createElement("a");
+
+link.download=
+"TTSS-Skin.png";
+
+link.href=
+canvas.toDataURL("image/png");
+
+link.click();
+
+});
+
+};
+
+document
+.body
+.appendChild(script);
+
+}
+
+
+async function shareSkin(){
+
+if(!navigator.share){
+
+alert(
+"Browser yako haisupport Share. Tumia Export PNG."
+);
+
+return;
+
+}
+
+try{
+
+await navigator.share({
+
+title:"TTSS Skin",
+
+text:
+"Created with Tanzania Truck Skin Studio 🇹🇿"
+
+});
+
+}catch(e){
+
+console.log(e);
+
+}
+
+}
+
+</script>
+
+</body>
+
+  </html>margin-top:15px;
 background:#111419;
 border-radius:18px;
 padding:12px;
