@@ -3,63 +3,94 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
 <title>TTSS Skin Editor</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
 html,body{
   width:100%;
   height:100%;
   overflow:hidden;
   background:#08090b;
-  color:white;
+  color:#fff;
   font-family:Arial,sans-serif;
 }
-button{color:white}
+
+button{
+  color:#fff;
+  font-family:inherit;
+}
+
 .app{
+  width:100%;
   height:100dvh;
   display:flex;
   flex-direction:column;
 }
+
+/* TOP BAR */
+
 .top{
-  height:55px;
-  min-height:55px;
+  height:56px;
+  min-height:56px;
   background:#111419;
-  border-bottom:1px solid #292d33;
+  border-bottom:1px solid #292e35;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:5px 8px;
+  padding:5px 7px;
+  z-index:20;
 }
+
+.top-left,
+.top-right{
+  display:flex;
+  align-items:center;
+  gap:2px;
+}
+
 .top button{
-  border:0;
-  background:none;
-  font-size:20px;
   width:40px;
   height:40px;
+  border:0;
+  background:transparent;
   border-radius:10px;
+  font-size:20px;
 }
-.top button:active{background:#292e35}
+
+.top button:active{
+  background:#292e35;
+}
+
 .title{
   text-align:center;
-  font-weight:bold;
   font-size:14px;
+  font-weight:bold;
 }
-.sub{
-  color:#777;
-  font-size:9px;
+
+.subtitle{
   text-align:center;
+  font-size:8px;
+  color:#777;
   margin-top:2px;
 }
 
+/* WORKSPACE */
+
 .workspace{
-  position:relative;
   flex:1;
+  position:relative;
   overflow:hidden;
+  background:#090a0c;
   display:flex;
   align-items:center;
   justify-content:center;
-  background:#090a0c;
   touch-action:none;
 }
 
@@ -68,16 +99,19 @@ button{color:white}
   inset:0;
   opacity:.06;
   background-image:
-  linear-gradient(#fff 1px,transparent 1px),
-  linear-gradient(90deg,#fff 1px,transparent 1px);
+    linear-gradient(#fff 1px,transparent 1px),
+    linear-gradient(90deg,#fff 1px,transparent 1px);
   background-size:25px 25px;
+  pointer-events:none;
 }
 
+/* STAGE */
+
 .stage{
+  position:relative;
   width:min(94vw,900px);
   aspect-ratio:16/9;
-  position:relative;
-  background:#262b31;
+  background:#292e34;
   box-shadow:0 20px 60px #000;
   transform-origin:center;
   touch-action:none;
@@ -88,77 +122,1512 @@ button{color:white}
   inset:0;
   width:100%;
   height:100%;
+  touch-action:none;
 }
+
+/* ZOOM */
 
 .zoom{
   position:absolute;
-  bottom:10px;
   left:10px;
-  background:#000b;
+  bottom:10px;
+  background:#000c;
+  color:#aaa;
+  font-size:10px;
   padding:7px 10px;
   border-radius:8px;
-  font-size:10px;
-  color:#aaa;
+  z-index:5;
 }
+
+/* PANEL */
 
 .panel{
   background:#15181d;
-  border-top:1px solid #292d33;
+  border-top:1px solid #292e35;
   max-height:0;
   overflow:hidden;
-  transition:.2s;
+  transition:max-height .2s ease;
+  z-index:15;
 }
+
 .panel.open{
-  max-height:230px;
+  max-height:250px;
   overflow-y:auto;
 }
-.panelContent{padding:12px}
 
-.tools{
-  height:72px;
-  background:#111419;
-  display:flex;
-  gap:3px;
-  overflow-x:auto;
-  padding:6px;
-}
-.tools::-webkit-scrollbar{display:none}
-
-.tool{
-  min-width:64px;
-  border:0;
-  background:none;
-  border-radius:11px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  gap:4px;
-  font-size:10px;
-  color:#aaa;
-}
-.tool b{font-size:21px}
-.tool:active{
-  background:#292e35;
-  color:#00d26a;
+.panel-content{
+  padding:12px;
 }
 
-.panelTitle{
+.panel-title{
   font-size:11px;
   font-weight:bold;
   margin-bottom:10px;
+  color:#ddd;
 }
 
 .row{
   display:flex;
   gap:7px;
   overflow-x:auto;
-  margin-bottom:8px;
+  margin-bottom:9px;
 }
+
+.row::-webkit-scrollbar{
+  display:none;
+}
+
 .btn{
   flex:0 0 auto;
+  padding:10px 13px;
+  border:1px solid #393f48;
+  border-radius:10px;
   background:#242930;
-  border:1px solid #383e47;
+  font-size:11px;
+}
+
+.btn:active{
+  transform:scale(.96);
+}
+
+/* INPUT */
+
+input[type=text]{
+  width:100%;
+  background:#0c0e11;
+  color:#fff;
+  border:1px solid #383e46;
+  border-radius:10px;
+  padding:12px;
+  outline:none;
+  margin-bottom:9px;
+}
+
+input[type=color]{
+  width:48px;
+  height:38px;
+  border:0;
+  background:transparent;
+}
+
+.control{
+  display:grid;
+  grid-template-columns:55px 1fr 45px;
+  gap:8px;
+  align-items:center;
+  margin:8px 0;
+}
+
+.control label{
+  color:#aaa;
+  font-size:10px;
+}
+
+.control span{
+  color:#00d26a;
+  text-align:right;
+  font-size:10px;
+}
+
+input[type=range]{
+  width:100%;
+  accent-color:#00d26a;
+}
+
+/* BOTTOM TOOLS */
+
+.tools{
+  height:73px;
+  min-height:73px;
+  background:#111419;
+  display:flex;
+  gap:2px;
+  overflow-x:auto;
+  padding:6px;
+  border-top:1px solid #292e35;
+  z-index:20;
+}
+
+.tools::-webkit-scrollbar{
+  display:none;
+}
+
+.tool{
+  min-width:65px;
+  height:60px;
+  border:0;
+  background:transparent;
+  border-radius:11px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  color:#aaa;
+  font-size:9px;
+}
+
+.tool b{
+  font-size:21px;
+}
+
+.tool:active{
+  background:#292e35;
+  color:#00d26a;
+}
+
+/* LAYERS */
+
+.layer{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:#242930;
+  border-radius:9px;
+  padding:8px;
+  margin-bottom:6px;
+  font-size:11px;
+}
+
+/* DESKTOP */
+
+@media(min-width:800px){
+
+  .tools{
+    height:82px;
+    justify-content:center;
+  }
+
+  .tool{
+    min-width:80px;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- TOP -->
+
+<header class="top">
+
+  <div class="top-left">
+
+    <button onclick="goHome()">←</button>
+
+  </div>
+
+  <div>
+
+    <div class="title">
+      🎨 TTSS SKIN EDITOR
+    </div>
+
+    <div class="subtitle">
+      PROFESSIONAL MOBILE EDITOR
+    </div>
+
+  </div>
+
+  <div class="top-right">
+
+    <button onclick="undo()">↶</button>
+
+    <button onclick="redo()">↷</button>
+
+    <button onclick="exportPNG()">💾</button>
+
+  </div>
+
+</header>
+
+
+<!-- WORKSPACE -->
+
+<main class="workspace" id="workspace">
+
+  <div class="grid"></div>
+
+  <div class="stage" id="stage">
+
+    <canvas id="canvas"></canvas>
+
+  </div>
+
+  <div class="zoom" id="zoom">
+    100%
+  </div>
+
+</main>
+
+
+<!-- PANEL -->
+
+<section class="panel" id="panel">
+
+  <div class="panel-content" id="panelContent"></div>
+
+</section>
+
+
+<!-- TOOLS -->
+
+<nav class="tools">
+
+  <button class="tool" onclick="textPanel()">
+    <b>T</b>
+    Text
+  </button>
+
+  <button class="tool" onclick="stickerPanel()">
+    <b>🏷️</b>
+    Sticker
+  </button>
+
+  <button class="tool" onclick="imageUpload()">
+    <b>🖼️</b>
+    Image
+  </button>
+
+  <button class="tool" onclick="stylePanel()">
+    <b>✨</b>
+    Style
+  </button>
+
+  <button class="tool" onclick="transformPanel()">
+    <b>🔄</b>
+    Transform
+  </button>
+
+  <button class="tool" onclick="brushPanel()">
+    <b>🖌️</b>
+    Brush
+  </button>
+
+  <button class="tool" onclick="eraserPanel()">
+    <b>🧽</b>
+    Eraser
+  </button>
+
+  <button class="tool" onclick="layersPanel()">
+    <b>▱</b>
+    Layers
+  </button>
+
+  <button class="tool" onclick="deleteSelected()">
+    <b>🗑️</b>
+    Delete
+  </button>
+
+</nav>
+
+</div>
+
+
+<input
+  id="imageInput"
+  type="file"
+  accept="image/*"
+  style="display:none"
+>
+
+
+<script>
+
+/* =====================================================
+   TTSS SKIN EDITOR
+===================================================== */
+
+const canvas =
+  document.getElementById("canvas");
+
+const ctx =
+  canvas.getContext("2d");
+
+const stage =
+  document.getElementById("stage");
+
+const workspace =
+  document.getElementById("workspace");
+
+let objects = [];
+
+let selected = null;
+
+let mode = "select";
+
+let drawing = false;
+
+let currentStroke = null;
+
+let gesture = null;
+
+let zoomLevel = 1;
+
+let pinchDistance = 0;
+
+let pinchStartZoom = 1;
+
+let brushSize = 8;
+
+let brushColor = "#00d26a";
+
+let history = [];
+
+let historyIndex = -1;
+
+const dpr =
+  window.devicePixelRatio || 1;
+
+
+/* =====================================================
+   CANVAS SIZE
+===================================================== */
+
+function resizeCanvas(){
+
+  const rect =
+    stage.getBoundingClientRect();
+
+  canvas.width =
+    rect.width * dpr;
+
+  canvas.height =
+    rect.height * dpr;
+
+  canvas.style.width =
+    rect.width + "px";
+
+  canvas.style.height =
+    rect.height + "px";
+
+  ctx.setTransform(
+    dpr,
+    0,
+    0,
+    dpr,
+    0,
+    0
+  );
+
+  draw();
+
+}
+
+window.addEventListener(
+  "resize",
+  resizeCanvas
+);
+
+
+/* =====================================================
+   DRAW
+===================================================== */
+
+function draw(){
+
+  const width =
+    canvas.clientWidth;
+
+  const height =
+    canvas.clientHeight;
+
+  ctx.clearRect(
+    0,
+    0,
+    width,
+    height
+  );
+
+  /* background */
+
+  ctx.fillStyle =
+    "#292e34";
+
+  ctx.fillRect(
+    0,
+    0,
+    width,
+    height
+  );
+
+
+  /* objects */
+
+  for(const object of objects){
+
+    if(object.hidden)
+      continue;
+
+    ctx.save();
+
+    ctx.globalAlpha =
+      object.opacity ?? 1;
+
+    if(object.type === "text"){
+
+      drawText(object);
+
+    }
+
+    else if(object.type === "image"){
+
+      drawImage(object);
+
+    }
+
+    else if(object.type === "brush"){
+
+      drawBrush(object);
+
+    }
+
+    ctx.restore();
+
+  }
+
+
+  /* selection */
+
+  if(selected){
+
+    drawSelection(selected);
+
+  }
+
+}
+
+
+/* =====================================================
+   TEXT
+===================================================== */
+
+function drawText(object){
+
+  ctx.save();
+
+  ctx.translate(
+    object.x,
+    object.y
+  );
+
+  ctx.rotate(
+    object.rotation *
+    Math.PI / 180
+  );
+
+  ctx.scale(
+    object.scale * object.flipX,
+    object.scale * object.flipY
+  );
+
+  ctx.font =
+    `${object.italic ? "italic " : ""}` +
+    `${object.bold ? "900" : "normal"} ` +
+    `${object.size}px Arial`;
+
+  ctx.textAlign =
+    "center";
+
+  ctx.textBaseline =
+    "middle";
+
+
+  if(object.bend === 0){
+
+    paintText(
+      object,
+      object.text,
+      0,
+      0
+    );
+
+  }
+
+  else{
+
+    const chars =
+      [...object.text];
+
+    const radius = 300;
+
+    const amount =
+      object.bend / 100;
+
+    const spread =
+      Math.min(
+        2.2,
+        Math.abs(amount) * 1.8
+      );
+
+    chars.forEach(
+      (char,index)=>{
+
+        const t =
+          chars.length === 1
+          ? .5
+          : index /
+            (chars.length - 1);
+
+        const angle =
+          -spread / 2 +
+          spread * t;
+
+        const x =
+          Math.sin(angle) *
+          radius;
+
+        const y =
+          (1 - Math.cos(angle)) *
+          radius *
+          (amount > 0 ? 1 : -1);
+
+        ctx.save();
+
+        ctx.translate(
+          x,
+          y
+        );
+
+        ctx.rotate(angle);
+
+        paintText(
+          object,
+          char,
+          0,
+          0
+        );
+
+        ctx.restore();
+
+      }
+    );
+
+  }
+
+  ctx.restore();
+
+}
+
+
+/* =====================================================
+   TEXT PAINT
+===================================================== */
+
+function paintText(
+  object,
+  text,
+  x,
+  y
+){
+
+  if(object.outline){
+
+    ctx.lineWidth =
+      object.outlineSize;
+
+    ctx.strokeStyle =
+      object.outlineColor;
+
+    ctx.strokeText(
+      text,
+      x,
+      y
+    );
+
+  }
+
+
+  if(object.shadow){
+
+    ctx.shadowColor =
+      object.shadowColor;
+
+    ctx.shadowBlur =
+      object.shadowBlur;
+
+    ctx.shadowOffsetX =
+      object.shadowX;
+
+    ctx.shadowOffsetY =
+      object.shadowY;
+
+  }
+
+
+  ctx.fillStyle =
+    object.color;
+
+  ctx.fillText(
+    text,
+    x,
+    y
+  );
+
+
+  ctx.shadowColor =
+    "transparent";
+
+}
+
+
+/* =====================================================
+   IMAGE
+===================================================== */
+
+function drawImage(object){
+
+  if(!object.image)
+    return;
+
+  ctx.save();
+
+  ctx.translate(
+    object.x,
+    object.y
+  );
+
+  ctx.rotate(
+    object.rotation *
+    Math.PI / 180
+  );
+
+  ctx.scale(
+    object.scale * object.flipX,
+    object.scale * object.flipY
+  );
+
+  ctx.drawImage(
+    object.image,
+    -object.w / 2,
+    -object.h / 2,
+    object.w,
+    object.h
+  );
+
+  ctx.restore();
+
+}
+
+
+/* =====================================================
+   BRUSH
+===================================================== */
+
+function drawBrush(object){
+
+  if(
+    !object.points ||
+    object.points.length === 0
+  ){
+
+    return;
+
+  }
+
+
+  ctx.strokeStyle =
+    object.color;
+
+  ctx.lineWidth =
+    object.size;
+
+  ctx.lineCap =
+    "round";
+
+  ctx.lineJoin =
+    "round";
+
+  ctx.beginPath();
+
+  ctx.moveTo(
+    object.points[0].x,
+    object.points[0].y
+  );
+
+
+  for(
+    let i = 1;
+    i < object.points.length;
+    i++
+  ){
+
+    ctx.lineTo(
+      object.points[i].x,
+      object.points[i].y
+    );
+
+  }
+
+  ctx.stroke();
+
+}
+
+
+/* =====================================================
+   OBJECT BOUNDS
+===================================================== */
+
+function bounds(object){
+
+  if(object.type === "text"){
+
+    return {
+
+      w:Math.max(
+        100,
+        object.text.length *
+        object.size *
+        .55
+      ),
+
+      h:
+        object.size * 1.4
+
+    };
+
+  }
+
+
+  if(object.type === "image"){
+
+    return {
+
+      w:object.w,
+
+      h:object.h
+
+    };
+
+  }
+
+
+  return {
+    w:0,
+    h:0
+  };
+
+}
+
+
+/* =====================================================
+   SELECTION BOX
+===================================================== */
+
+function drawSelection(object){
+
+  if(object.type === "brush")
+    return;
+
+  const b =
+    bounds(object);
+
+  ctx.save();
+
+  ctx.translate(
+    object.x,
+    object.y
+  );
+
+  ctx.rotate(
+    object.rotation *
+    Math.PI / 180
+  );
+
+
+  /* box */
+
+  ctx.strokeStyle =
+    "#00d26a";
+
+  ctx.lineWidth = 2;
+
+  ctx.setLineDash([
+    5,
+    4
+  ]);
+
+  ctx.strokeRect(
+    -b.w / 2 - 8,
+    -b.h / 2 - 8,
+    b.w + 16,
+    b.h + 16
+  );
+
+  ctx.setLineDash([]);
+
+
+  /* corners */
+
+  const handles = [
+
+    [
+      -b.w / 2 - 8,
+      -b.h / 2 - 8
+    ],
+
+    [
+      b.w / 2 + 8,
+      -b.h / 2 - 8
+    ],
+
+    [
+      b.w / 2 + 8,
+      b.h / 2 + 8
+    ],
+
+    [
+      -b.w / 2 - 8,
+      b.h / 2 + 8
+    ]
+
+  ];
+
+
+  ctx.fillStyle =
+    "#00d26a";
+
+
+  handles.forEach(
+    point=>{
+
+      ctx.beginPath();
+
+      ctx.arc(
+        point[0],
+        point[1],
+        6,
+        0,
+        Math.PI * 2
+      );
+
+      ctx.fill();
+
+    }
+  );
+
+
+  /* rotation line */
+
+  ctx.strokeStyle =
+    "#00d26a";
+
+  ctx.beginPath();
+
+  ctx.moveTo(
+    0,
+    -b.h / 2 - 8
+  );
+
+  ctx.lineTo(
+    0,
+    -b.h / 2 - 42
+  );
+
+  ctx.stroke();
+
+
+  /* rotation handle */
+
+  ctx.beginPath();
+
+  ctx.arc(
+    0,
+    -b.h / 2 - 48,
+    7,
+    0,
+    Math.PI * 2
+  );
+
+  ctx.fill();
+
+  ctx.restore();
+
+}
+
+
+/* =====================================================
+   POINTER POSITION
+===================================================== */
+
+function getPoint(event){
+
+  const rect =
+    canvas.getBoundingClientRect();
+
+  return {
+
+    x:
+      event.clientX -
+      rect.left,
+
+    y:
+      event.clientY -
+      rect.top
+
+  };
+
+}
+
+
+/* =====================================================
+   FIND OBJECT
+===================================================== */
+
+function findObject(point){
+
+  for(
+    let i = objects.length - 1;
+    i >= 0;
+    i--
+  ){
+
+    const object =
+      objects[i];
+
+    if(
+      object.hidden ||
+      object.type === "brush"
+    ){
+
+      continue;
+
+    }
+
+
+    const b =
+      bounds(object);
+
+
+    if(
+
+      point.x >=
+      object.x - b.w / 2 &&
+
+      point.x <=
+      object.x + b.w / 2 &&
+
+      point.y >=
+      object.y - b.h / 2 &&
+
+      point.y <=
+      object.y + b.h / 2
+
+    ){
+
+      return object;
+
+    }
+
+  }
+
+  return null;
+
+}
+
+
+/* =====================================================
+   HANDLE ACTION
+===================================================== */
+
+function getHandleAction(
+  point,
+  object
+){
+
+  if(object.type === "brush")
+    return null;
+
+
+  const b =
+    bounds(object);
+
+
+  const dx =
+    point.x - object.x;
+
+  const dy =
+    point.y - object.y;
+
+
+  const angle =
+    -object.rotation *
+    Math.PI / 180;
+
+
+  const localX =
+    dx * Math.cos(angle) -
+    dy * Math.sin(angle);
+
+
+  const localY =
+    dx * Math.sin(angle) +
+    dy * Math.cos(angle);
+
+
+  /* ROTATE */
+
+  const rotateY =
+    -b.h / 2 - 48;
+
+
+  const rotateDistance =
+    Math.sqrt(
+
+      localX * localX +
+
+      (localY - rotateY) *
+      (localY - rotateY)
+
+    );
+
+
+  if(
+    rotateDistance < 20
+  ){
+
+    return "rotate";
+
+  }
+
+
+  /* RESIZE */
+
+  const cornerX =
+    b.w / 2 + 8;
+
+  const cornerY =
+    b.h / 2 + 8;
+
+
+  const resizeDistance =
+    Math.sqrt(
+
+      (localX - cornerX) *
+      (localX - cornerX) +
+
+      (localY - cornerY) *
+      (localY - cornerY)
+
+    );
+
+
+  if(
+    resizeDistance < 24
+  ){
+
+    return "resize";
+
+  }
+
+
+  return "move";
+
+}
+
+
+/* =====================================================
+   POINTER DOWN
+===================================================== */
+
+canvas.addEventListener(
+  "pointerdown",
+  event=>{
+
+    event.preventDefault();
+
+    canvas.setPointerCapture(
+      event.pointerId
+    );
+
+
+    const point =
+      getPoint(event);
+
+
+    /* BRUSH */
+
+    if(mode === "brush"){
+
+      drawing = true;
+
+      currentStroke = {
+
+        id:Date.now(),
+
+        type:"brush",
+
+        points:[point],
+
+        color:brushColor,
+
+        size:brushSize,
+
+        opacity:1
+
+      };
+
+
+      objects.push(
+        currentStroke
+      );
+
+      draw();
+
+      return;
+
+    }
+
+
+    /* ERASER */
+
+    if(mode === "eraser"){
+
+      drawing = true;
+
+      erase(point);
+
+      return;
+
+    }
+
+
+    /* SELECT */
+
+    const hit =
+      findObject(point);
+
+
+    if(hit){
+
+      selected = hit;
+
+      const action =
+        getHandleAction(
+          point,
+          selected
+        );
+
+
+      /* ROTATE */
+
+      if(action === "rotate"){
+
+        gesture = {
+
+          type:"rotate",
+
+          centerX:selected.x,
+
+          centerY:selected.y,
+
+          startRotation:
+            selected.rotation
+
+        };
+
+      }
+
+
+      /* RESIZE */
+
+      else if(
+        action === "resize"
+      ){
+
+        gesture = {
+
+          type:"resize",
+
+          startX:point.x,
+
+          startY:point.y,
+
+          startScale:
+            selected.scale
+
+        };
+
+      }
+
+
+      /* MOVE */
+
+      else{
+
+        gesture = {
+
+          type:"move",
+
+          startX:point.x,
+
+          startY:point.y,
+
+          objectX:selected.x,
+
+          objectY:selected.y
+
+        };
+
+      }
+
+    }
+
+    else{
+
+      selected = null;
+
+      gesture = null;
+
+    }
+
+
+    draw();
+
+  }
+);
+
+
+/* =====================================================
+   POINTER MOVE
+===================================================== */
+
+canvas.addEventListener(
+  "pointermove",
+  event=>{
+
+    event.preventDefault();
+
+
+    const point =
+      getPoint(event);
+
+
+    /* BRUSH */
+
+    if(
+      mode === "brush" &&
+      drawing &&
+      currentStroke
+    ){
+
+      currentStroke.points.push(
+        point
+      );
+
+      draw();
+
+      return;
+
+    }
+
+
+    /* ERASER */
+
+    if(
+      mode === "eraser" &&
+      drawing
+    ){
+
+      erase(point);
+
+      return;
+
+    }
+
+
+    if(
+      !gesture ||
+      !selected
+    ){
+
+      return;
+
+    }
+
+
+    /* MOVE */
+
+    if(
+      gesture.type === "move"
+    ){
+
+      selected.x =
+        gesture.objectX +
+        (
+          point.x -
+          gesture.startX
+        );
+
+
+      selected.y =
+        gesture.objectY +
+        (
+          point.y -
+          gesture.startY
+        );
+
+    }
+
+
+    /* RESIZE */
+
+    if(
+      gesture.type === "resize"
+    ){
+
+      const dx =
+        point.x -
+        gesture.startX;
+
+      const dy =
+        point.y -
+        gesture.startY;
+
+
+      const change =
+        (dx + dy) / 300;
+
+
+      selected.scale =
+        Math.max(
+          .15,
+          Math.min(
+            5,
+            gesture.startScale +
+            change
+          )
+        );
+
+    }
+
+
+    /* ROTATE */
+
+    if(
+      gesture.type === "rotate"
+    ){
+
+      const angle =
+        Math.atan2(
+
+          point.y -
+          gesture.centerY,
+
+          point.x -
+          gesture.centerX
+
+        ) *
+        180 /
+        Math.PI;
+
+
+      selected.rotation =
+        angle + 90;
+
+    }
+
+
+    draw();
+
+  }
+);
+
+
+/* =====================================================
+   POINTER UP
+===================================================== */
+
+canvas.addEventListener(
+  "pointerup",
+  event=>{
+
+    try{
+
+      canvas.releasePointerCapture(
+        event.pointerId
+      );
+
+    }catch(e){}
+
+
+    if(gesture){
+
+      save();
+
+      gesture = null;
+
+    }
+
+
+    if(drawing){
+
+      drawing = false;
+
+      currentStroke = null;
+
+      save();
+
+    }
+
+  }
+);
+
+
+canvas.addEventListener(
+  "pointercancel",
+  ()=>{
+
+    gesture = null;
+
+    drawing = false;
+
+    currentStroke = null;
+
+  }
+);
+
+
+/* =====================================================
+   TEXT PANEL
+===================================================== */
+
+function textPanel(){
+
+  openPanel(`
+
+    <div class="panel-title">
+      ✍️ TEXT STUDIO
+    </div>
+
+    <input
+      id="textInput"
+      type="text"
+      placeholder="Andika text..."
+      value="${
+        selected &&
+        selected.type === "text"
+        ? escapeHTML(selected.text)
+        : ""
+      }"
+    >
+
+
+    <div class="row">
+
+      <button
+        class="btn"
+        onclick="newText()">
+        ＋ Add Text
+      </button>
+
+      <button
+        class="btn"
+        onclick="toggleBold()">
+        B B  border:1px solid #383e47;
   border-radius:10px;
   padding:10px 13px;
   font-size:11px;
