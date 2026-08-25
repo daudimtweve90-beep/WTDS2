@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>TTSS - Tanzania Truck Skin Studio</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #090b0e;
+      color: white;
+    }
+
+    header {
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #111419;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-icon {
+      width: 45px;
+      height: 45px;
+      border-radius: 13px;
+      background: #00d26a;
+      color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 23px;
+    }
+
+    .logo h1 {
+      font-size: 20px;
+    }
+
+    .logo p {
+      color: #777;
+      font-size: 11px;
+      margin-top: 3px;
+    }
+
+    .search {
+      padding: 18px;
+    }
+
+    .search input {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      outline: none;
+      border-radius: 14px;
+      background: #15191f;
+      color: white;
+      font-size: 15px;
+    }
+
+    .section {
+      padding: 0 18px;
+      margin-top: 10px;
+    }
+
+    .section-title {
+      font-size: 15px;
+      font-weight: bold;
+      margin-bottom: 13px;
+    }
+
+    .categories {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+
+    .category {
+      white-space: nowrap;
+      background: #15191f;
+      padding: 10px 15px;
+      border-radius: 20px;
+      color: #ddd;
+      font-size: 13px;
+    }
+
+    .skins {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .skin {
+      background: #15191f;
+      border-radius: 15px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .skin:hover {
+      transform: translateY(-3px);
+    }
+
+    .truck {
+      height: 130px;
+      background: #222831;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 65px;
+    }
+
+    .skin-info {
+      padding: 10px;
+    }
+
+    .skin-name {
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .skin-truck {
+      color: #777;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .download {
+      color: #aaa;
+      font-size: 11px;
+      margin-top: 8px;
+    }
+
+    .create {
+      margin: 25px 18px 90px;
+    }
+
+    .create button {
+      width: 100%;
+      border: none;
+      background: #00d26a;
+      color: black;
+      padding: 17px;
+      border-radius: 15px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 65px;
+      background: #111419;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      border-top: 1px solid #222;
+      z-index: 20;
+    }
+
+    nav button {
+      background: none;
+      border: none;
+      color: #888;
+      font-size: 11px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+    }
+
+    nav button.active {
+      color: #00d26a;
+    }
+
+    nav span {
+      font-size: 20px;
+    }
+
+    @media (min-width: 700px) {
+      .skins {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .section,
+      .search {
+        max-width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+
+  <div class="logo">
+
+    <div class="logo-icon">
+      🚛
+    </div>
+
+    <div>
+      <h1>TTSS</h1>
+      <p>Tanzania Truck Skin Studio</p>
+    </div>
+
+  </div>
+
+  <div>
+    🔔
+  </div>
+
+</header>
+
+
+<div class="search">
+
+  <input
+    type="text"
+    id="search"
+    placeholder="🔍 Search skins..."
+    onkeyup="searchSkins()"
+  >
+
+</div>
+
+
+<section class="section">
+
+  <div class="section-title">
+    CATEGORIES
+  </div>
+
+  <div class="categories">
+
+    <div class="category">Scania</div>
+    <div class="category">Volvo</div>
+    <div class="category">MAN</div>
+    <div class="category">Mercedes</div>
+    <div class="category">DAF</div>
+    <div class="category">Trailer</div>
+
+  </div>
+
+</section>
+
+
+<section class="section">
+
+  <div class="section-title">
+    🔥 TRENDING SKINS
+  </div>
+
+  <div class="skins" id="skins">
+
+    <div class="skin">
+
+      <div class="truck">
+        🚛
+      </div>
+
+      <div class="skin-info">
+
+        <div class="skin-name">
+          Tanzania Express
+        </div>
+
+        <div class="skin-truck">
+          Scania R
+        </div>
+
+        <div class="download">
+          📥 2.4K downloads
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="skin">
+
+      <div class="truck">
+        🚚
+      </div>
+
+      <div class="skin-info">
+
+        <div class="skin-name">
+          Safari Cargo
+        </div>
+
+        <div class="skin-truck">
+          Volvo FH
+        </div>
+
+        <div class="download">
+          📥 1.8K downloads
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="skin">
+
+      <div class="truck">
+        🚛
+      </div>
+
+      <div class="skin-info">
+
+        <div class="skin-name">
+          TZ Logistics
+        </div>
+
+        <div class="skin-truck">
+          MAN TGX
+        </div>
+
+        <div class="download">
+          📥 1.2K downloads
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="skin">
+
+      <div class="truck">
+        🚚
+      </div>
+
+      <div class="skin-info">
+
+        <div class="skin-name">
+          East Africa
+        </div>
+
+        <div class="skin-truck">
+          Mercedes Actros
+        </div>
+
+        <div class="download">
+          📥 980 downloads
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<div class="create">
+
+  <button onclick="openEditor()">
+    🎨 CREATE NEW SKIN
+  </button>
+
+</div>
+
+
+<nav>
+
+  <button class="active">
+    <span>🏠</span>
+    Home
+  </button>
+
+  <button onclick="alert('Skin Library coming soon')">
+    <span>📥</span>
+    Skins
+  </button>
+
+  <button onclick="openEditor()">
+    <span>🎨</span>
+    Editor
+  </button>
+
+  <button onclick="alert('Saved skins coming soon')">
+    <span>❤️</span>
+    Saved
+  </button>
+
+  <button onclick="alert('Settings coming soon')">
+    <span>⚙️</span>
+    Settings
+  </button>
+
+</nav>
+
+
+<script>
+
+function openEditor() {
+
+  alert(
+    "TTSS Skin Editor\n\n" +
+    "Editor tunaiandaliwa hatua inayofuata 🔥"
+  );
+
+}
+
+
+function searchSkins() {
+
+  const search =
+    document
+      .getElementById("search")
+      .value
+      .toLowerCase();
+
+  const skins =
+    document.querySelectorAll(".skin");
+
+  skins.forEach(function(skin) {
+
+    const text =
+      skin.innerText.toLowerCase();
+
+    if (text.includes(search)) {
+
+      skin.style.display = "block";
+
+    } else {
+
+      skin.style.display = "none";
+
+    }
+
+  });
+
+}
+
+</script>
+
+</body>
+</html>
