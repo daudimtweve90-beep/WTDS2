@@ -3,12 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport"
-      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 
-<title>TTSS Editor</title>
+<title>TTSS Professional Editor</title>
 
 <style>
-
 *{
   box-sizing:border-box;
   margin:0;
@@ -21,12 +20,12 @@ html,body{
   height:100%;
   overflow:hidden;
   background:#08090b;
-  color:white;
-  font-family:Arial,Helvetica,sans-serif;
+  color:#fff;
+  font-family:Arial,sans-serif;
 }
 
 button{
-  font-family:inherit;
+  font-family:Arial,sans-serif;
 }
 
 .app{
@@ -34,314 +33,196 @@ button{
   height:100dvh;
   display:flex;
   flex-direction:column;
-  background:#08090b;
 }
 
-/* TOP BAR */
+/* TOP */
 
-.topbar{
-  height:58px;
-  min-height:58px;
+.top{
+  height:56px;
+  min-height:56px;
   background:#101216;
+  border-bottom:1px solid #252930;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:0 10px;
-  border-bottom:1px solid #202329;
-  z-index:50;
+  padding:0 8px;
 }
 
-.top-left,
-.top-right{
-  display:flex;
-  align-items:center;
-  gap:5px;
-}
-
-.icon-btn{
+.top button{
   width:42px;
   height:42px;
   border:0;
-  border-radius:12px;
+  border-radius:11px;
   background:transparent;
-  color:white;
+  color:#fff;
   font-size:20px;
 }
 
-.icon-btn:active{
-  background:#252a31;
+.top button:active{
+  background:#292e35;
 }
 
-.app-title{
-  font-size:16px;
-  font-weight:900;
+.title{
+  font-size:15px;
+  font-weight:bold;
 }
 
-.app-sub{
-  font-size:9px;
+.subtitle{
   color:#777;
+  font-size:9px;
   margin-top:2px;
 }
 
 /* WORKSPACE */
 
 .workspace{
+  position:relative;
   flex:1;
   min-height:0;
-  position:relative;
+  overflow:hidden;
   display:flex;
   align-items:center;
   justify-content:center;
-  overflow:hidden;
   background:
-    radial-gradient(
-      circle at center,
-      #1b1e23 0,
-      #0d0f12 45%,
-      #08090b 100%
-    );
+  radial-gradient(circle,#20242a,#0a0b0d 75%);
+  touch-action:none;
 }
 
-.workspace-grid{
+.grid{
   position:absolute;
   inset:0;
-  opacity:.08;
+  opacity:.07;
   background-image:
-    linear-gradient(#fff 1px,transparent 1px),
-    linear-gradient(90deg,#fff 1px,transparent 1px);
+  linear-gradient(#fff 1px,transparent 1px),
+  linear-gradient(90deg,#fff 1px,transparent 1px);
   background-size:25px 25px;
-  pointer-events:none;
 }
 
-/* CANVAS */
-
-.canvas-wrap{
+#canvas{
   position:relative;
   width:min(94vw,900px);
   aspect-ratio:16/9;
+  background:#252a30;
+  box-shadow:0 20px 70px #000;
   transform-origin:center;
   touch-action:none;
 }
 
-.canvas{
-  position:absolute;
-  inset:0;
-  overflow:hidden;
-  border-radius:5px;
-  background:#252a30;
-  box-shadow:
-    0 20px 70px rgba(0,0,0,.65);
-  transform-origin:center;
-}
-
-.canvas img.background{
+#design{
   position:absolute;
   inset:0;
   width:100%;
   height:100%;
-  object-fit:contain;
-  pointer-events:none;
 }
 
-.template{
+.zoom{
   position:absolute;
-  inset:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:85px;
-  opacity:.15;
-  pointer-events:none;
-}
-
-/* OBJECT */
-
-.object{
-  position:absolute;
-  transform-origin:center;
-  touch-action:none;
-  user-select:none;
-}
-
-.text-object{
-  white-space:nowrap;
-  font-size:42px;
-  font-weight:900;
-}
-
-.image-object{
-  width:180px;
-  height:120px;
-  object-fit:contain;
-}
-
-.selected{
-  outline:1px dashed #00d26a;
-}
-
-.handles{
-  position:absolute;
-  inset:-10px;
-  border:1px solid #00d26a;
-  pointer-events:none;
-}
-
-.handle{
-  position:absolute;
-  width:12px;
-  height:12px;
-  background:#00d26a;
-  border:2px solid #07120c;
-  border-radius:50%;
-}
-
-.h-tl{
-  left:-6px;
-  top:-6px;
-}
-
-.h-tr{
-  right:-6px;
-  top:-6px;
-}
-
-.h-bl{
-  left:-6px;
-  bottom:-6px;
-}
-
-.h-br{
-  right:-6px;
-  bottom:-6px;
-}
-
-.rotate-handle{
-  position:absolute;
-  left:50%;
-  top:-30px;
-  transform:translateX(-50%);
-  width:14px;
-  height:14px;
-  border-radius:50%;
-  background:#00d26a;
-  border:2px solid #07120c;
-}
-
-.rotate-line{
-  position:absolute;
-  width:1px;
-  height:20px;
-  background:#00d26a;
-  left:50%;
-  top:-20px;
-}
-
-/* ZOOM INFO */
-
-.zoom-info{
-  position:absolute;
-  left:12px;
-  bottom:12px;
-  background:rgba(0,0,0,.55);
-  backdrop-filter:blur(8px);
-  border-radius:10px;
+  left:10px;
+  bottom:10px;
+  background:#0009;
   padding:7px 10px;
-  font-size:11px;
+  border-radius:9px;
+  font-size:10px;
   color:#aaa;
-  pointer-events:none;
 }
 
 /* BOTTOM */
 
 .bottom{
   background:#101216;
-  border-top:1px solid #202329;
-  z-index:60;
-}
-
-.tool-strip{
-  height:74px;
-  display:flex;
-  align-items:center;
-  gap:6px;
-  overflow-x:auto;
-  padding:7px 9px;
-}
-
-.tool-strip::-webkit-scrollbar{
-  display:none;
-}
-
-.tool{
-  min-width:62px;
-  height:58px;
-  border:0;
-  background:transparent;
-  color:#aaa;
-  border-radius:12px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  gap:4px;
-  font-size:10px;
-}
-
-.tool-icon{
-  font-size:21px;
-}
-
-.tool:active{
-  background:#252a31;
-}
-
-.tool.active{
-  color:#00d26a;
-  background:#17241e;
-}
-
-/* OPTION PANEL */
-
-.options{
-  max-height:0;
-  overflow:hidden;
-  background:#15181d;
-  transition:max-height .2s ease;
-}
-
-.options.open{
-  max-height:210px;
-  overflow-y:auto;
+  border-top:1px solid #252930;
 }
 
 .panel{
+  max-height:0;
+  overflow:hidden;
+  transition:.2s;
+  background:#15181d;
+}
+
+.panel.open{
+  max-height:220px;
+  overflow-y:auto;
+}
+
+.panel-inner{
   padding:12px;
 }
 
 .panel-title{
   font-size:12px;
-  font-weight:900;
-  color:#ddd;
+  font-weight:bold;
   margin-bottom:9px;
+}
+
+.tools{
+  height:72px;
+  display:flex;
+  overflow-x:auto;
+  gap:4px;
+  padding:7px;
+}
+
+.tools::-webkit-scrollbar{
+  display:none;
+}
+
+.tool{
+  min-width:64px;
+  height:58px;
+  border:0;
+  border-radius:12px;
+  background:transparent;
+  color:#aaa;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  font-size:10px;
+}
+
+.tool b{
+  font-size:21px;
+}
+
+.tool:active{
+  background:#292e35;
+  color:#00d26a;
 }
 
 .row{
   display:flex;
-  gap:8px;
+  gap:7px;
   overflow-x:auto;
 }
 
-.small-btn{
+.btn{
   flex:0 0 auto;
+  border:1px solid #353a42;
   background:#22262d;
-  color:#eee;
-  border:1px solid #343942;
+  color:#fff;
   border-radius:10px;
-  padding:10px 12px;
+  padding:10px 13px;
   font-size:11px;
 }
 
-.slider-row{
+.btn:active{
+  transform:scale(.96);
+}
+
+input[type=text]{
+  width:100%;
+  background:#0b0d10;
+  color:#fff;
+  border:1px solid #353a42;
+  border-radius:10px;
+  padding:12px;
+  outline:none;
+  margin-bottom:9px;
+}
+
+.control{
   display:grid;
   grid-template-columns:60px 1fr 45px;
   align-items:center;
@@ -349,14 +230,14 @@ button{
   margin:9px 0;
 }
 
-.slider-row label{
-  font-size:11px;
+.control label{
+  font-size:10px;
   color:#aaa;
 }
 
-.slider-value{
-  font-size:10px;
+.control span{
   color:#00d26a;
+  font-size:10px;
   text-align:right;
 }
 
@@ -372,253 +253,111 @@ input[type=color]{
   background:none;
 }
 
-/* TEXT INPUT */
-
-.text-input{
-  width:100%;
-  padding:12px;
-  border-radius:10px;
-  border:1px solid #343942;
-  background:#0d0f12;
-  color:white;
-  outline:none;
-  margin-bottom:10px;
-}
-
-/* LAYER PANEL */
-
-.layers{
-  max-height:150px;
-  overflow:auto;
-}
-
 .layer{
   display:flex;
-  align-items:center;
   justify-content:space-between;
-  background:#20242a;
+  align-items:center;
   padding:10px;
-  border-radius:9px;
   margin-bottom:6px;
+  border-radius:9px;
+  background:#22262d;
   font-size:11px;
 }
 
-.layer button{
-  border:0;
-  background:none;
-  color:#aaa;
+.hidden{
+  display:none;
 }
-
-/* DESKTOP */
-
-@media(min-width:800px){
-
-  .tool{
-    min-width:75px;
-  }
-
-}
-
 </style>
 </head>
-
 
 <body>
 
 <div class="app">
 
+  <div class="top">
 
-<!-- TOP BAR -->
-
-<div class="topbar">
-
-  <div class="top-left">
-
-    <button class="icon-btn"
-            onclick="goHome()">
-      ←
-    </button>
+    <button onclick="home()">←</button>
 
     <div>
-      <div class="app-title">
-        TTSS
-      </div>
+      <div class="title">TTSS</div>
+      <div class="subtitle">Professional Skin Editor</div>
+    </div>
 
-      <div class="app-sub">
-        Skin Editor
-      </div>
+    <div>
+      <button onclick="undo()">↶</button>
+      <button onclick="redo()">↷</button>
+      <button onclick="exportPNG()">💾</button>
     </div>
 
   </div>
 
 
-  <div class="top-right">
+  <div class="workspace" id="workspace">
 
-    <button class="icon-btn"
-            onclick="undo()">
-      ↶
-    </button>
+    <div class="grid"></div>
 
-    <button class="icon-btn"
-            onclick="redo()">
-      ↷
-    </button>
+    <canvas id="design"></canvas>
 
-    <button class="icon-btn"
-            onclick="exportSkin()">
-      💾
-    </button>
+    <div class="zoom" id="zoomText">100%</div>
 
   </div>
 
-</div>
 
+  <div class="bottom">
 
-<!-- WORKSPACE -->
-
-<div class="workspace">
-
-  <div class="workspace-grid"></div>
-
-
-  <div class="canvas-wrap"
-       id="canvasWrap">
-
-    <div class="canvas"
-         id="canvas">
-
-      <div class="template">
-        🚛
-      </div>
-
+    <div class="panel" id="panel">
+      <div class="panel-inner" id="panelContent"></div>
     </div>
 
-  </div>
 
+    <div class="tools">
 
-  <div class="zoom-info"
-       id="zoomInfo">
-    100%
-  </div>
+      <button class="tool" onclick="textTool()">
+        <b>T</b>
+        Text
+      </button>
 
-</div>
+      <button class="tool" onclick="stickerTool()">
+        <b>🏷️</b>
+        Sticker
+      </button>
 
+      <button class="tool" onclick="imageTool()">
+        <b>🖼️</b>
+        Image
+      </button>
 
-<!-- BOTTOM -->
+      <button class="tool" onclick="styleTool()">
+        <b>✨</b>
+        Style
+      </button>
 
-<div class="bottom">
+      <button class="tool" onclick="transformTool()">
+        <b>🔄</b>
+        Transform
+      </button>
 
+      <button class="tool" onclick="brushTool()">
+        <b>🖌️</b>
+        Brush
+      </button>
 
-  <!-- OPTIONS -->
+      <button class="tool" onclick="eraserTool()">
+        <b>🧽</b>
+        Eraser
+      </button>
 
-  <div class="options"
-       id="options">
+      <button class="tool" onclick="layersTool()">
+        <b>▱</b>
+        Layers
+      </button>
 
-    <div class="panel"
-         id="panelContent">
+      <button class="tool" onclick="deleteObject()">
+        <b>🗑️</b>
+        Delete
+      </button>
+
     </div>
-
-  </div>
-
-
-  <!-- TOOLBAR -->
-
-  <div class="tool-strip">
-
-    <button class="tool"
-            onclick="openText()">
-
-      <span class="tool-icon">
-        T
-      </span>
-
-      Text
-
-    </button>
-
-
-    <button class="tool"
-            onclick="openStickers()">
-
-      <span class="tool-icon">
-        🏷️
-      </span>
-
-      Sticker
-
-    </button>
-
-
-    <button class="tool"
-            onclick="chooseImage()">
-
-      <span class="tool-icon">
-        🖼️
-      </span>
-
-      Image
-
-    </button>
-
-
-    <button class="tool"
-            onclick="openStyle()">
-
-      <span class="tool-icon">
-        ✨
-      </span>
-
-      Style
-
-    </button>
-
-
-    <button class="tool"
-            onclick="openTransform()">
-
-      <span class="tool-icon">
-        🔄
-      </span>
-
-      Transform
-
-    </button>
-
-
-    <button class="tool"
-            onclick="openDraw()">
-
-      <span class="tool-icon">
-        🖌️
-      </span>
-
-      Draw
-
-    </button>
-
-
-    <button class="tool"
-            onclick="openLayers()">
-
-      <span class="tool-icon">
-        ▱
-      </span>
-
-      Layers
-
-    </button>
-
-
-    <button class="tool"
-            onclick="deleteSelected()">
-
-      <span class="tool-icon">
-        🗑️
-      </span>
-
-      Delete
-
-    </button>
 
   </div>
 
@@ -626,2726 +365,1146 @@ input[type=color]{
 
 
 <input
-  type="file"
-  id="imageInput"
-  accept="image/*"
-  style="display:none"
-  onchange="loadImage(event)"
+id="imageInput"
+type="file"
+accept="image/*"
+class="hidden"
 >
 
 
 <script>
 
-/* =========================
-   GLOBAL STATE
-========================= */
+/* =====================================
+   CANVAS
+===================================== */
+
+const canvas =
+document.getElementById("design");
+
+const ctx =
+canvas.getContext("2d");
+
+const workspace =
+document.getElementById("workspace");
+
+let objects = [];
 
 let selected = null;
-
-let objectId = 0;
 
 let zoom = 1;
 
 let history = [];
 
-let historyIndex = -1;
+let historyPos = -1;
 
-let drag = null;
+let mode = "select";
 
+let drawing = false;
 
-/* =========================
-   HOME
-========================= */
+let brushColor = "#00d26a";
 
-function goHome(){
+let brushSize = 8;
 
-  window.location.href =
-    "index.html";
-
-}
+let dpr = window.devicePixelRatio || 1;
 
 
-/* =========================
-   SELECT
-========================= */
+/* =====================================
+   RESIZE CANVAS
+===================================== */
 
-function selectObject(el){
+function resizeCanvas(){
 
-  if(selected){
-    selected.classList.remove(
-      "selected"
-    );
-  }
+  const rect =
+  canvas.getBoundingClientRect();
 
-  selected = el;
+  canvas.width =
+  rect.width * dpr;
 
-  if(!selected) return;
+  canvas.height =
+  rect.height * dpr;
 
-  selected.classList.add(
-    "selected"
+  ctx.setTransform(
+    dpr,0,0,dpr,0,0
   );
 
+  draw();
+
+}
+
+window.addEventListener(
+  "resize",
+  resizeCanvas
+);
+
+setTimeout(
+  resizeCanvas,
+  100
+);
+
+
+/* =====================================
+   DRAW EVERYTHING
+===================================== */
+
+function draw(){
+
+  const rect =
+  canvas.getBoundingClientRect();
+
+  const w = rect.width;
+  const h = rect.height;
+
+  ctx.clearRect(0,0,w,h);
+
+  ctx.fillStyle="#252a30";
+  ctx.fillRect(0,0,w,h);
+
+  for(const o of objects){
+
+    if(o.hidden) continue;
+
+    drawObject(o);
+
+  }
+
+  if(selected){
+
+    drawSelection(selected);
+
+  }
+
 }
 
 
-/* =========================
-   CREATE TEXT
-========================= */
+/* =====================================
+   DRAW OBJECT
+===================================== */
+
+function drawObject(o){
+
+  ctx.save();
+
+  ctx.translate(o.x,o.y);
+
+  ctx.rotate(
+    o.rotation * Math.PI / 180
+  );
+
+  ctx.scale(
+    o.scale * o.flipX,
+    o.scale * o.flipY
+  );
+
+  if(o.type==="text"){
+
+    drawText(o);
+
+  }
+
+  else if(o.type==="image"){
+
+    if(o.image){
+
+      ctx.drawImage(
+        o.image,
+        -o.w/2,
+        -o.h/2,
+        o.w,
+        o.h
+      );
+
+    }
+
+  }
+
+  else if(o.type==="brush"){
+
+    drawStroke(o);
+
+  }
+
+  ctx.restore();
+
+}
+
+
+/* =====================================
+   TEXT
+===================================== */
+
+function drawText(o){
+
+  ctx.font =
+  `${o.italic?"italic ":""}${o.bold?"900":"normal"} ${o.size}px Arial`;
+
+  ctx.textAlign="center";
+  ctx.textBaseline="middle";
+
+  let text=o.text;
+
+  if(o.bend===0){
+
+    drawTextEffects(
+      o,
+      text,
+      0,
+      0
+    );
+
+  }else{
+
+    const chars =
+    [...text];
+
+    const radius =
+    Math.max(
+      100,
+      500 - Math.abs(o.bend)*2
+    );
+
+    const total =
+    Math.min(
+      2.5,
+      Math.abs(o.bend)/70
+    );
+
+    const start =
+    -total/2;
+
+    chars.forEach(
+      (ch,i)=>{
+
+        const t =
+        chars.length===1
+        ? .5
+        : i/(chars.length-1);
+
+        const angle =
+        start + total*t;
+
+        const x =
+        Math.sin(angle)*radius;
+
+        const y =
+        (1-Math.cos(angle))*radius *
+        (o.bend>0?1:-1);
+
+        ctx.save();
+
+        ctx.translate(
+          x,
+          y
+        );
+
+        ctx.rotate(angle);
+
+        drawTextEffects(
+          o,
+          ch,
+          0,
+          0
+        );
+
+        ctx.restore();
+
+      }
+    );
+
+  }
+
+}
+
+
+function drawTextEffects(
+  o,
+  text,
+  x,
+  y
+){
+
+  if(o.outline){
+
+    ctx.lineWidth =
+    o.outlineSize;
+
+    ctx.strokeStyle =
+    o.outlineColor;
+
+    ctx.strokeText(
+      text,x,y
+    );
+
+  }
+
+  if(o.shadow){
+
+    ctx.shadowColor =
+    o.shadowColor;
+
+    ctx.shadowBlur =
+    o.shadowBlur;
+
+    ctx.shadowOffsetX =
+    o.shadowX;
+
+    ctx.shadowOffsetY =
+    o.shadowY;
+
+  }
+
+  ctx.fillStyle =
+  o.color;
+
+  ctx.fillText(
+    text,x,y
+  );
+
+  ctx.shadowColor="transparent";
+}
+
+
+/* =====================================
+   BRUSH
+===================================== */
+
+function drawStroke(o){
+
+  if(!o.points.length)
+    return;
+
+  ctx.strokeStyle =
+  o.color;
+
+  ctx.lineWidth =
+  o.size;
+
+  ctx.lineCap="round";
+  ctx.lineJoin="round";
+
+  ctx.beginPath();
+
+  ctx.moveTo(
+    o.points[0].x,
+    o.points[0].y
+  );
+
+  for(let i=1;i<o.points.length;i++){
+
+    ctx.lineTo(
+      o.points[i].x,
+      o.points[i].y
+    );
+
+  }
+
+  ctx.stroke();
+
+}
+
+
+/* =====================================
+   SELECTION
+===================================== */
+
+function drawSelection(o){
+
+  if(o.type==="brush")
+    return;
+
+  ctx.save();
+
+  ctx.translate(o.x,o.y);
+
+  ctx.rotate(
+    o.rotation*Math.PI/180
+  );
+
+  const w =
+  o.type==="text"
+  ? Math.max(
+      100,
+      o.text.length*o.size*.55
+    )
+  : o.w;
+
+  const h =
+  o.type==="text"
+  ? o.size*1.4
+  : o.h;
+
+  ctx.strokeStyle="#00d26a";
+  ctx.lineWidth=1;
+  ctx.setLineDash([5,5]);
+
+  ctx.strokeRect(
+    -w/2-8,
+    -h/2-8,
+    w+16,
+    h+16
+  );
+
+  ctx.setLineDash([]);
+
+  ctx.fillStyle="#00d26a";
+
+  const points=[
+    [-w/2-8,-h/2-8],
+    [w/2+8,-h/2-8],
+    [-w/2-8,h/2+8],
+    [w/2+8,h/2+8]
+  ];
+
+  for(const p of points){
+
+    ctx.beginPath();
+
+    ctx.arc(
+      p[0],
+      p[1],
+      5,
+      0,
+      Math.PI*2
+    );
+
+    ctx.fill();
+
+  }
+
+  ctx.restore();
+
+}
+
+
+/* =====================================
+   ADD TEXT
+===================================== */
 
 function addText(){
 
-  const el =
-    document.createElement("div");
+  const o={
 
-  el.className =
-    "object text-object";
+    id:Date.now(),
 
-  el.innerText =
-    "TANZANIA";
+    type:"text",
 
-  el.dataset.id =
-    ++objectId;
+    text:"TANZANIA",
 
-  el.dataset.x =
-    "30";
+    x:canvas.clientWidth/2,
 
-  el.dataset.y =
-    "30";
+    y:canvas.clientHeight/2,
 
-  el.dataset.rotation =
-    "0";
+    size:42,
 
-  el.dataset.scale =
-    "1";
+    color:"#ffffff",
 
-  el.style.left =
-    "30px";
+    scale:1,
 
-  el.style.top =
-    "30px";
+    rotation:0,
 
-  document
-    .getElementById("canvas")
-    .appendChild(el);
+    flipX:1,
 
-  makeDraggable(el);
+    flipY:1,
 
-  selectObject(el);
+    bold:true,
 
-  saveHistory();
+    italic:false,
 
-  openText();
+    outline:false,
 
-}
+    outlineColor:"#000000",
 
+    outlineSize:3,
 
-/* =========================
-   DRAG
-========================= */
+    shadow:false,
 
-function makeDraggable(el){
+    shadowColor:"#000000",
 
-  el.addEventListener(
-    "pointerdown",
-    startDrag
-  );
+    shadowBlur:5,
 
-}
+    shadowX:4,
 
+    shadowY:4,
 
-function startDrag(e){
-
-  if(e.target.classList.contains("handle"))
-    return;
-
-  e.preventDefault();
-
-  const el =
-    e.currentTarget;
-
-  selectObject(el);
-
-  drag = {
-
-    startX:e.clientX,
-
-    startY:e.clientY,
-
-    left:parseFloat(el.style.left)||0,
-
-    top:parseFloat(el.style.top)||0
+    bend:0
 
   };
 
-  el.setPointerCapture(
-    e.pointerId
-  );
+  objects.push(o);
 
-  el.addEventListener(
-    "pointermove",
-    moveDrag
-  );
+  selected=o;
 
-  el.addEventListener(
-    "pointerup",
-    endDrag,
-    {once:true}
-  );
+  save();
+
+  draw();
+
+  textTool();
 
 }
 
 
-function moveDrag(e){
-
-  if(!drag) return;
-
-  const el =
-    e.currentTarget;
-
-  const dx =
-    e.clientX-drag.startX;
-
-  const dy =
-    e.clientY-drag.startY;
-
-  el.style.left =
-    (drag.left+dx)+"px";
-
-  el.style.top =
-    (drag.top+dy)+"px";
-
-}
-
-
-function endDrag(e){
-
-  const el =
-    e.currentTarget;
-
-  el.removeEventListener(
-    "pointermove",
-    moveDrag
-  );
-
-  drag=null;
-
-  saveHistory();
-
-}
-
-
-/* =========================
-   IMAGE
-========================= */
-
-function chooseImage(){
-
-  document
-    .getElementById("imageInput")
-    .click();
-
-}
-
-
-function loadImage(event){
-
-  const file =
-    event.target.files[0];
-
-  if(!file) return;
-
-  const reader =
-    new FileReader();
-
-  reader.onload =
-    function(e){
-
-      const img =
-        document.createElement("img");
-
-      img.className =
-        "object image-object";
-
-      img.src =
-        e.target.result;
-
-      img.dataset.id =
-        ++objectId;
-
-      img.style.left =
-        "50px";
-
-      img.style.top =
-        "50px";
-
-      document
-        .getElementById("canvas")
-        .appendChild(img);
-
-      makeDraggable(img);
-
-      selectObject(img);
-
-      saveHistory();
-
-    };
-
-  reader.readAsDataURL(file);
-
-}
-
-
-/* =========================
+/* =====================================
    TEXT PANEL
-========================= */
+===================================== */
 
-function openText(){
+function textTool(){
 
-  openOptions();
+  mode="select";
 
-  const panel =
-    document.getElementById(
-      "panelContent"
-    );
-
-  panel.innerHTML = `
+  openPanel(`
 
     <div class="panel-title">
-      TEXT EDITOR
+      TEXT STUDIO
     </div>
 
     <input
-      class="text-input"
-      id="textValue"
-      placeholder="Andika text yako..."
-      value="${selected && selected.classList.contains("text-object")
-        ? selected.innerText
-        : ""}"
-      oninput="changeText(this.value)"
+      type="text"
+      id="textInput"
+      value="${selected && selected.type==="text"
+      ? escapeHTML(selected.text)
+      : "TANZANIA"}"
+      placeholder="Andika text..."
     >
 
     <div class="row">
 
-      <button class="small-btn"
-              onclick="textBold()">
-        Bold
+      <button class="btn" onclick="addText()">
+        ＋ New Text
       </button>
 
-      <button class="small-btn"
-              onclick="textItalic()">
-        Italic
+      <button class="btn" onclick="setBold()">
+        B Bold
       </button>
 
-      <button class="small-btn"
-              onclick="textOutline()">
+      <button class="btn" onclick="setItalic()">
+        I Italic
+      </button>
+
+      <button class="btn" onclick="setOutline()">
         Outline
       </button>
 
-      <button class="small-btn"
-              onclick="textShadow()">
+      <button class="btn" onclick="setShadow()">
         Shadow
-      </button>
-
-      <button class="small-btn"
-              onclick="textGlow()">
-        Glow
-      </button>
-
-      <button class="small-btn"
-              onclick="textSticker()">
-        Sticker
       </button>
 
     </div>
 
-  `;
+    <div class="control">
+      <label>Size</label>
+      <input id="textSize"
+      type="range"
+      min="10"
+      max="140"
+      value="${selected?.size||42}">
+      <span id="sizeValue">
+      ${selected?.size||42}
+      </span>
+    </div>
 
-}
-
-
-function changeText(value){
-
-  if(!selected) return;
-
-  if(!selected.classList.contains(
-    "text-object"
-  )) return;
-
-  selected.innerText =
-    value;
-
-}
-
-
-/* =========================
-   STYLES
-========================= */
-
-function openStyle(){
-
-  openOptions();
-
-  document
-    .getElementById("panelContent")
-    .innerHTML = `
-
-    <div class="panel-title">
-      TEXT STYLES
+    <div class="control">
+      <label>Bend</label>
+      <input id="bendRange"
+      type="range"
+      min="-120"
+      max="120"
+      value="${selected?.bend||0}">
+      <span id="bendValue">
+      ${selected?.bend||0}°
+      </span>
     </div>
 
     <div class="row">
 
-      <button class="small-btn"
-              onclick="textNormal()">
-        Normal
+      <label style="font-size:11px">
+        Color
+      </label>
+
+      <input
+      id="textColor"
+      type="color"
+      value="${selected?.color||"#ffffff"}"
+      >
+
+    </div>
+
+  `);
+
+  const input =
+  document.getElementById(
+    "textInput"
+  );
+
+  input.oninput=()=>{
+
+    if(!selected ||
+       selected.type!=="text")
+      return;
+
+    selected.text =
+    input.value;
+
+    save(false);
+    draw();
+
+  };
+
+
+  const size =
+  document.getElementById(
+    "textSize"
+  );
+
+  size.oninput=()=>{
+
+    if(!selected) return;
+
+    selected.size =
+    Number(size.value);
+
+    document.getElementById(
+      "sizeValue"
+    ).innerText =
+    size.value;
+
+    draw();
+
+  };
+
+
+  const bend =
+  document.getElementById(
+    "bendRange"
+  );
+
+  bend.oninput=()=>{
+
+    if(!selected) return;
+
+    selected.bend =
+    Number(bend.value);
+
+    document.getElementById(
+      "bendValue"
+    ).innerText =
+    bend.value+"°";
+
+    draw();
+
+  };
+
+
+  document.getElementById(
+    "textColor"
+  ).oninput=e=>{
+
+    if(!selected) return;
+
+    selected.color =
+    e.target.value;
+
+    draw();
+
+  };
+
+}
+
+
+/* =====================================
+   STYLES
+===================================== */
+
+function styleTool(){
+
+  openPanel(`
+
+    <div class="panel-title">
+      TEXT STYLE
+    </div>
+
+    <div class="row">
+
+      <button class="btn"
+      onclick="setBold()">
+      Bold
       </button>
 
-      <button class="small-btn"
-              onclick="textBold()">
-        Bold
+      <button class="btn"
+      onclick="setItalic()">
+      Italic
       </button>
 
-      <button class="small-btn"
-              onclick="textItalic()">
-        Italic
+      <button class="btn"
+      onclick="setOutline()">
+      Outline
       </button>
 
-      <button class="small-btn"
-              onclick="textOutline()">
-        Outline
+      <button class="btn"
+      onclick="setShadow()">
+      Shadow
       </button>
 
-      <button class="small-btn"
-              onclick="textShadow()">
-        Shadow
+      <button class="btn"
+      onclick="style3D()">
+      3D
       </button>
 
-      <button class="small-btn"
-              onclick="textGlow()">
-        Glow
+      <button class="btn"
+      onclick="styleSticker()">
+      Sticker
       </button>
 
-      <button class="small-btn"
-              onclick="text3D()">
-        3D
+      <button class="btn"
+      onclick="resetStyle()">
+      Reset
       </button>
 
-      <button class="small-btn"
-              onclick="textSticker()">
-        Sticker
-      </button>
+    </div>
 
-  </div>cursor:move;
-user-select:none;
-touch-action:none;
-transform-origin:center;
-}
-
-.selected{
-outline:2px dashed #00d26a;
-}
-
-.tools{
-margin-top:14px;
-background:#111419;
-padding:12px;
-border-radius:18px;
-}
-
-.tool-row{
-display:flex;
-gap:8px;
-overflow-x:auto;
-padding-bottom:10px;
-}
-
-.tool{
-white-space:nowrap;
-border:1px solid #30353c;
-background:#171b20;
-color:#fff;
-padding:11px 14px;
-border-radius:12px;
-font-size:13px;
-}
-
-.panel{
-background:#171b20;
-border-radius:14px;
-padding:12px;
-margin-top:10px;
-}
-
-.panel-title{
-font-weight:bold;
-font-size:13px;
-margin-bottom:10px;
-color:#ddd;
-}
-
-.styles{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:7px;
-}
-
-.style{
-background:#0d1013;
-border:1px solid #30353c;
-color:#fff;
-padding:10px 5px;
-border-radius:9px;
-font-size:11px;
-}
-
-input[type="text"]{
-width:100%;
-background:#0c0f12;
-border:1px solid #30353c;
-color:#fff;
-padding:12px;
-border-radius:10px;
-outline:none;
-}
-
-input[type="range"]{
-width:100%;
-}
-
-input[type="color"]{
-width:55px;
-height:40px;
-border:0;
-background:none;
-}
-
-.control-row{
-display:grid;
-grid-template-columns:1fr auto;
-align-items:center;
-gap:10px;
-margin-top:10px;
-}
-
-.control-label{
-font-size:11px;
-color:#999;
-}
-
-.value{
-font-size:11px;
-color:#00d26a;
-}
-
-.actions{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:9px;
-margin-top:12px;
-}
-
-.action{
-padding:15px;
-border:0;
-border-radius:12px;
-font-weight:bold;
-}
-
-.export{
-background:#00d26a;
-color:#000;
-}
-
-.share{
-background:#222831;
-color:#fff;
-}
-
-@media(min-width:800px){
-
-.editor{
-display:grid;
-grid-template-columns:2fr 1fr;
-gap:18px;
-}
-
-.tools{
-margin-top:0;
-height:max-content;
-}
+  `);
 
 }
 
-</style>
 
-</head>
+function setBold(){
 
+  if(!selected ||
+     selected.type!=="text")
+    return;
 
-<body>
+  selected.bold =
+  !selected.bold;
 
-
-<header>
-
-<button onclick="goHome()">←</button>
-
-<h1>🎨 TTSS Skin Editor</h1>
-
-</header>
-
-
-<div class="editor">
-
-
-<div class="preview-box">
-
-<div class="title">
-SKIN PREVIEW
-</div>
-
-<div id="canvas">
-
-<div class="truck">
-🚛
-</div>
-
-</div>
-
-</div>
-
-
-<div class="tools">
-
-
-<div class="tool-row">
-
-<button class="tool"
-onclick="addText()">
-✍️ Text
-</button>
-
-<button class="tool"
-onclick="chooseImage()">
-🖼️ Image
-</button>
-
-<button class="tool"
-onclick="changeBackground()">
-🎨 Background
-</button>
-
-<button class="tool"
-onclick="deleteSelected()">
-🗑️ Delete
-</button>
-
-</div>
-
-
-<div class="panel">
-
-<div class="panel-title">
-TEXT
-</div>
-
-<input
-type="text"
-id="textInput"
-placeholder="Andika text..."
-oninput="updateText()"
->
-
-</div>
-
-
-<div class="panel">
-
-<div class="panel-title">
-TEXT STYLE
-</div>
-
-<div class="styles">
-
-<button class="style"
-onclick="styleNormal()">
-Normal
-</button>
-
-<button class="style"
-onclick="styleBold()">
-Bold
-</button>
-
-<button class="style"
-onclick="styleItalic()">
-Italic
-</button>
-
-<button class="style"
-onclick="styleOutline()">
-Outline
-</button>
-
-<button class="style"
-onclick="styleShadow()">
-Shadow
-</button>
-
-<button class="style"
-onclick="styleGlow()">
-Glow
-</button>
-
-<button class="style"
-onclick="style3D()">
-3D
-</button>
-
-<button class="style"
-onclick="styleChrome()">
-Chrome
-</button>
-
-<button class="style"
-onclick="styleSticker()">
-Sticker
-</button>
-
-<button class="style"
-onclick="styleGradient()">
-Gradient
-</button>
-
-<button class="style"
-onclick="styleWave()">
-Wave
-</button>
-
-<button class="style"
-onclick="styleReset()">
-Reset
-</button>
-
-</div>
-
-</div>
-
-
-<div class="panel">
-
-<div class="panel-title">
-TEXT COLOR
-</div>
-
-<input
-type="color"
-id="color"
-value="#ffffff"
-oninput="updateColor()"
->
-
-
-<div class="control-row">
-
-<div>
-
-<div class="control-label">
-SIZE
-</div>
-
-<input
-type="range"
-id="size"
-min="10"
-max="120"
-value="40"
-oninput="updateSize()"
->
-
-</div>
-
-<div class="value"
-id="sizeValue">
-40
-</div>
-
-</div>
-
-
-<div class="control-row">
-
-<div>
-
-<div class="control-label">
-BEND / ARC
-</div>
-
-<input
-type="range"
-id="bend"
-min="-180"
-max="180"
-value="0"
-oninput="updateBend()"
->
-
-</div>
-
-<div class="value"
-id="bendValue">
-0°
-</div>
-
-</div>
-
-
-<div class="control-row">
-
-<div>
-
-<div class="control-label">
-ROTATE
-</div>
-
-<input
-type="range"
-id="rotate"
-min="-180"
-max="180"
-value="0"
-oninput="updateRotate()"
->
-
-</div>
-
-<div class="value"
-id="rotateValue">
-0°
-</div>
-
-</div>
-
-
-<div class="control-row">
-
-<div>
-
-<div class="control-label">
-STRETCH
-</div>
-
-<input
-type="range"
-id="stretch"
-min="50"
-max="200"
-value="100"
-oninput="updateStretch()"
->
-
-</div>
-
-<div class="value"
-id="stretchValue">
-100%
-</div>
-
-</div>
-
-
-<div class="control-row">
-
-<div>
-
-<div class="control-label">
-OPACITY
-</div>
-
-<input
-type="range"
-id="opacity"
-min="0"
-max="1"
-step="0.05"
-value="1"
-oninput="updateOpacity()"
->
-
-</div>
-
-<div class="value"
-id="opacityValue">
-100%
-</div>
-
-</div>
-
-</div>
-
-
-<div class="actions">
-
-<button
-class="action export"
-onclick="exportSkin()">
-💾 EXPORT PNG
-</button>
-
-<button
-class="action share"
-onclick="shareSkin()">
-📤 SHARE
-</button>
-
-</div>
-
-
-</div>
-
-</div>
-
-
-<input
-type="file"
-id="imageInput"
-accept="image/*"
-style="display:none"
-onchange="loadImage(event)"
->
-
-
-<script>
-
-let selected=null;
-
-let dragData=null;
-
-
-function goHome(){
-
-window.location.href="index.html";
+  draw();
 
 }
 
 
-function addText(){
+function setItalic(){
 
-const text=
-document.createElement("div");
+  if(!selected ||
+     selected.type!=="text")
+    return;
 
-text.className="text-layer";
+  selected.italic =
+  !selected.italic;
 
-text.innerText="TANZANIA";
-
-text.style.left="30px";
-
-text.style.top="30px";
-
-text.style.fontSize="40px";
-
-text.style.color="#ffffff";
-
-text.style.fontWeight="900";
-
-text.style.opacity="1";
-
-text.dataset.bend="0";
-
-text.dataset.rotate="0";
-
-text.dataset.stretch="100";
-
-document
-.getElementById("canvas")
-.appendChild(text);
-
-makeDraggable(text);
-
-selectText(text);
+  draw();
 
 }
 
 
-function makeDraggable(el){
+function setOutline(){
 
-el.addEventListener(
-"pointerdown",
-function(e){
+  if(!selected ||
+     selected.type!=="text")
+    return;
 
-e.preventDefault();
+  selected.outline =
+  !selected.outline;
 
-selectText(el);
-
-dragData={
-
-x:e.clientX,
-
-y:e.clientY,
-
-left:parseFloat(el.style.left)||0,
-
-top:parseFloat(el.style.top)||0
-
-};
-
-el.setPointerCapture(e.pointerId);
-
-});
-
-
-el.addEventListener(
-"pointermove",
-function(e){
-
-if(!dragData)return;
-
-let dx=
-e.clientX-dragData.x;
-
-let dy=
-e.clientY-dragData.y;
-
-el.style.left=
-(dragData.left+dx)+"px";
-
-el.style.top=
-(dragData.top+dy)+"px";
-
-});
-
-
-el.addEventListener(
-"pointerup",
-function(){
-
-dragData=null;
-
-});
+  draw();
 
 }
 
 
-function selectText(el){
+function setShadow(){
 
-if(selected){
+  if(!selected ||
+     selected.type!=="text")
+    return;
 
-selected.classList.remove(
-"selected"
-);
+  selected.shadow =
+  !selected.shadow;
 
-}
-
-selected=el;
-
-selected.classList.add(
-"selected"
-);
-
-document
-.getElementById("textInput")
-.value=
-selected.innerText;
-
-document
-.getElementById("size")
-.value=
-parseInt(selected.style.fontSize)||40;
-
-document
-.getElementById("opacity")
-.value=
-selected.style.opacity||1;
-
-document
-.getElementById("bend")
-.value=
-selected.dataset.bend||0;
-
-document
-.getElementById("rotate")
-.value=
-selected.dataset.rotate||0;
-
-document
-.getElementById("stretch")
-.value=
-selected.dataset.stretch||100;
-
-}
-
-
-function updateText(){
-
-if(!selected)return;
-
-selected.innerText=
-document
-.getElementById("textInput")
-.value;
-
-}
-
-
-function updateColor(){
-
-if(!selected)return;
-
-selected.style.color=
-document
-.getElementById("color")
-.value;
-
-}
-
-
-function updateSize(){
-
-if(!selected)return;
-
-let value=
-document
-.getElementById("size")
-.value;
-
-selected.style.fontSize=
-value+"px";
-
-document
-.getElementById("sizeValue")
-.innerText=
-value;
-
-}
-
-
-function updateOpacity(){
-
-if(!selected)return;
-
-let value=
-document
-.getElementById("opacity")
-.value;
-
-selected.style.opacity=
-value;
-
-document
-.getElementById("opacityValue")
-.innerText=
-Math.round(value*100)+"%";
-
-}
-
-
-function updateRotate(){
-
-if(!selected)return;
-
-let value=
-document
-.getElementById("rotate")
-.value;
-
-selected.dataset.rotate=value;
-
-applyTransform();
-
-document
-.getElementById("rotateValue")
-.innerText=
-value+"°";
-
-}
-
-
-function updateStretch(){
-
-if(!selected)return;
-
-let value=
-document
-.getElementById("stretch")
-.value;
-
-selected.dataset.stretch=value;
-
-applyTransform();
-
-document
-.getElementById("stretchValue")
-.innerText=
-value+"%";
-
-}
-
-
-function updateBend(){
-
-if(!selected)return;
-
-let value=
-document
-.getElementById("bend")
-.value;
-
-selected.dataset.bend=value;
-
-document
-.getElementById("bendValue")
-.innerText=
-value+"°";
-
-applyTransform();
-
-}
-
-
-function applyTransform(){
-
-if(!selected)return;
-
-let rotate=
-selected.dataset.rotate||0;
-
-let stretch=
-selected.dataset.stretch||100;
-
-let bend=
-selected.dataset.bend||0;
-
-selected.style.transform=
-"rotate("+rotate+"deg) "+
-"scaleX("+stretch/100+") "+
-"skewX("+bend/8+"deg)";
-
-}
-
-
-function styleNormal(){
-
-if(!selected)return;
-
-selected.style.fontWeight="normal";
-
-selected.style.fontStyle="normal";
-
-selected.style.textShadow="none";
-
-selected.style.webkitTextStroke="0px transparent";
-
-}
-
-
-function styleBold(){
-
-if(!selected)return;
-
-selected.style.fontWeight="900";
-
-selected.style.fontStyle="normal";
-
-}
-
-
-function styleItalic(){
-
-if(!selected)return;
-
-selected.style.fontStyle="italic";
-
-}
-
-
-function styleOutline(){
-
-if(!selected)return;
-
-selected.style.fontWeight="900";
-
-selected.style.webkitTextStroke=
-"2px #000";
-
-selected.style.textShadow="none";
-
-}
-
-
-function styleShadow(){
-
-if(!selected)return;
-
-selected.style.textShadow=
-"5px 5px 5px #000";
-
-}
-
-
-function styleGlow(){
-
-if(!selected)return;
-
-selected.style.textShadow=
-"0 0 8px #00d26a,"+
-"0 0 18px #00d26a";
+  draw();
 
 }
 
 
 function style3D(){
 
-if(!selected)return;
+  if(!selected ||
+     selected.type!=="text")
+    return;
 
-selected.style.fontWeight="900";
+  selected.shadow=true;
+  selected.shadowBlur=0;
+  selected.shadowX=6;
+  selected.shadowY=6;
+  selected.shadowColor="#000";
 
-selected.style.textShadow=
-"3px 3px 0 #222,"+
-"6px 6px 0 #000";
-
-}
-
-
-function styleChrome(){
-
-if(!selected)return;
-
-selected.style.background=
-"linear-gradient(#fff,#777,#fff)";
-
-selected.style.webkitBackgroundClip=
-"text";
-
-selected.style.webkitTextFillColor=
-"transparent";
+  draw();
 
 }
 
 
 function styleSticker(){
 
-if(!selected)return;
+  if(!selected ||
+     selected.type!=="text")
+    return;
 
-selected.style.fontWeight="900";
+  selected.outline=true;
+  selected.outlineSize=7;
+  selected.outlineColor="#ffffff";
 
-selected.style.webkitTextStroke=
-"5px #fff";
+  selected.shadow=true;
+  selected.shadowBlur=0;
+  selected.shadowX=4;
+  selected.shadowY=4;
 
-selected.style.textShadow=
-"4px 4px 0 #000";
-
-}
-
-
-function styleGradient(){
-
-if(!selected)return;
-
-selected.style.background=
-"linear-gradient(90deg,#ff0000,#ffff00,#00ff00,#00ffff,#0000ff)";
-
-selected.style.webkitBackgroundClip=
-"text";
-
-selected.style.webkitTextFillColor=
-"transparent";
+  draw();
 
 }
 
 
-function styleWave(){
+function resetStyle(){
 
-if(!selected)return;
+  if(!selected ||
+     selected.type!=="text")
+    return;
 
-selected.style.textShadow=
-"0 8px 0 rgba(0,210,106,.35)";
+  selected.bold=true;
+  selected.italic=false;
+  selected.outline=false;
+  selected.shadow=false;
+  selected.outlineSize=3;
 
-selected.style.transform=
-"skewY(-5deg)";
-
-}
-
-
-function styleReset(){
-
-if(!selected)return;
-
-selected.style.fontWeight="900";
-
-selected.style.fontStyle="normal";
-
-selected.style.textShadow="none";
-
-selected.style.webkitTextStroke="0px transparent";
-
-selected.style.background="none";
-
-selected.style.webkitBackgroundClip="initial";
-
-selected.style.webkitTextFillColor=
-selected.style.color;
-
-selected.dataset.bend="0";
-
-selected.dataset.rotate="0";
-
-selected.dataset.stretch="100";
-
-document.getElementById("bend").value=0;
-
-document.getElementById("rotate").value=0;
-
-document.getElementById("stretch").value=100;
-
-applyTransform();
+  draw();
 
 }
 
 
-function chooseImage(){
+/* =====================================
+   STICKERS
+===================================== */
+
+function stickerTool(){
+
+  openPanel(`
+
+    <div class="panel-title">
+      STICKER LIBRARY
+    </div>
+
+    <div class="row">
+
+      <button class="btn"
+      onclick="addSticker('🇹🇿')">
+      🇹🇿 Tanzania
+      </button>
+
+      <button class="btn"
+      onclick="addSticker('SCANIA')">
+      SCANIA
+      </button>
+
+      <button class="btn"
+      onclick="addSticker('V8')">
+      V8
+      </button>
+
+      <button class="btn"
+      onclick="addSticker('VOLVO')">
+      VOLVO
+      </button>
+
+      <button class="btn"
+      onclick="addSticker('FH16')">
+      FH16
+      </button>
+
+      <button class="btn"
+      onclick="addSticker('MAN')">
+      MAN
+      </button>
+
+      <button class="btn"
+      onclick="addSticker('DAF')">
+      DAF
+      </button>
+
+      <button class="btn"
+      onclick="addSticker('LOGISTICS')">
+      LOGISTICS
+      </button>
+
+    </div>
+
+  `);
+
+}
+
+
+function addSticker(text){
+
+  const o={
+
+    id:Date.now(),
+
+    type:"text",
+
+    text:text,
+
+    x:canvas.clientWidth/2,
+
+    y:canvas.clientHeight/2,
+
+    size:30,
+
+    color:"#ffffff",
+
+    scale:1,
+
+    rotation:0,
+
+    flipX:1,
+
+    flipY:1,
+
+    bold:true,
+
+    italic:false,
+
+    outline:true,
+
+    outlineColor:"#000000",
+
+    outlineSize:4,
+
+    shadow:true,
+
+    shadowColor:"#000",
+
+    shadowBlur:3,
+
+    shadowX:3,
+
+    shadowY:3,
+
+    bend:0
+
+  };
+
+  objects.push(o);
+
+  selected=o;
+
+  save();
+
+  draw();
+
+}
+
+
+/* =====================================
+   IMAGE
+===================================== */
+
+function imageTool(){
+
+  document
+  .getElementById("imageInput")
+  .click();
+
+}
+
 
 document
 .getElementById("imageInput")
-.click();
+.addEventListener(
+"change",
+function(e){
 
-}
+  const file =
+  e.target.files[0];
 
+  if(!file) return;
 
-function loadImage(event){
+  const img =
+  new Image();
 
-const file=
-event.target.files[0];
+  img.onload=()=>{
 
-if(!file)return;
+    const o={
 
-const reader=
-new FileReader();
+      id:Date.now(),
 
-reader.onload=function(e){
+      type:"image",
 
-const img=
-document.createElement("img");
+      image:img,
 
-img.src=e.target.result;
+      x:canvas.clientWidth/2,
 
-img.style.zIndex="2";
+      y:canvas.clientHeight/2,
 
-document
-.getElementById("canvas")
-.appendChild(img);
+      w:220,
 
-};
+      h:150,
 
-reader.readAsDataURL(file);
+      scale:1,
 
-}
+      rotation:0,
 
+      flipX:1,
 
-function changeBackground(){
+      flipY:1
 
-const color=
-prompt(
-"Ingiza color, mfano #ff0000"
-);
+    };
 
-if(color){
+    objects.push(o);
 
-document
-.getElementById("canvas")
-.style.background=
-color;
+    selected=o;
 
-}
+    save();
 
-}
+    draw();
 
+  };
 
-function deleteSelected(){
-
-if(!selected){
-
-alert("Chagua text kwanza.");
-
-return;
-
-}
-
-selected.remove();
-
-selected=null;
-
-}
-
-
-function exportSkin(){
-
-const script=
-document.createElement("script");
-
-script.src=
-"https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
-
-script.onload=function(){
-
-html2canvas(
-document.getElementById("canvas"),
-{
-backgroundColor:null,
-scale:3
-}
-).then(function(canvas){
-
-const link=
-document.createElement("a");
-
-link.download=
-"TTSS-Skin.png";
-
-link.href=
-canvas.toDataURL("image/png");
-
-link.click();
+  img.src =
+  URL.createObjectURL(file);
 
 });
 
-};
 
-document
-.body
-.appendChild(script);
+/* =====================================
+   TRANSFORM PANEL
+===================================== */
+
+function transformTool(){
+
+  openPanel(`
+
+    <div class="panel-title">
+      TRANSFORM
+    </div>
 
-}
-
-
-async function shareSkin(){
-
-if(!navigator.share){
-
-alert(
-"Browser yako haisupport Share. Tumia Export PNG."
-);
-
-return;
-
-}
-
-try{
-
-await navigator.share({
-
-title:"TTSS Skin",
-
-text:
-"Created with Tanzania Truck Skin Studio 🇹🇿"
-
-});
-
-}catch(e){
-
-console.log(e);
-
-}
-
-}
-
-</script>
-
-</body>
-
-  </html>margin-top:15px;
-background:#111419;
-border-radius:18px;
-padding:12px;
-}
-
-.tool-row{
-display:flex;
-gap:8px;
-overflow-x:auto;
-padding-bottom:8px;
-}
-
-.tool{
-flex:0 0 auto;
-border:1px solid #30353c;
-background:#171b20;
-color:white;
-border-radius:12px;
-padding:11px 14px;
-font-size:13px;
-}
-
-.tool:active{
-transform:scale(.96);
-}
-
-.controls{
-margin-top:10px;
-background:#171b20;
-border-radius:14px;
-padding:12px;
-}
-
-.controls label{
-display:block;
-font-size:12px;
-color:#aaa;
-margin-bottom:6px;
-}
-
-.controls input[type="range"]{
-width:100%;
-}
-
-input[type="text"]{
-width:100%;
-background:#0d1013;
-border:1px solid #30353c;
-color:white;
-padding:12px;
-border-radius:10px;
-outline:none;
-}
-
-input[type="color"]{
-width:55px;
-height:40px;
-border:0;
-background:none;
-}
-
-.bottom-actions{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-margin-top:12px;
-}
-
-.action{
-padding:14px;
-border:0;
-border-radius:12px;
-font-weight:bold;
-}
-
-.export{
-background:#00d26a;
-color:#000;
-}
-
-.share{
-background:#222831;
-color:white;
-}
-
-@media(min-width:700px){
-
-.editor{
-display:grid;
-grid-template-columns:2fr 1fr;
-gap:20px;
-}
-
-.tools{
-margin-top:0;
-height:max-content;
-}
-
-}
-
-</style>
-
-</head>
-
-<body>
-
-<header>
-
-<button onclick="goHome()">←</button>
-
-<h1>🎨 TTSS Skin Editor</h1>
-
-</header>
-
-
-<div class="editor">
-
-
-<div class="canvas-area">
-
-<div class="canvas-title">
-SKIN PREVIEW
-</div>
-
-<div id="canvas">
-
-<div class="truck-preview">
-🚛
-</div>
-
-</div>
-
-</div>
-
-
-<div class="tools">
-
-<div class="tool-row">
-
-<button class="tool" onclick="uploadImage()">
-🖼️ Image
-</button>
-
-<button class="tool" onclick="addText()">
-✍️ Text
-</button>
-
-<button class="tool" onclick="changeBackground()">
-🎨 Color
-</button>
-
-<button class="tool" onclick="undo()">
-↩️ Undo
-</button>
-
-<button class="tool" onclick="redo()">
-↪️ Redo
-</button>
-
-</div>
-
-
-<div class="controls">
-
-<label>
-Text
-</label>
-
-<input
-type="text"
-id="textInput"
-placeholder="Select text..."
-oninput="updateText()"
->
-
-
-<label style="margin-top:15px">
-Text Size
-</label>
-
-<input
-type="range"
-id="sizeRange"
-min="10"
-max="100"
-value="35"
-oninput="updateSize()"
->
-
-
-<label style="margin-top:15px">
-Opacity
-</label>
-
-<input
-type="range"
-id="opacityRange"
-min="0"
-max="1"
-step=".05"
-value="1"
-oninput="updateOpacity()"
->
-
-
-<label style="margin-top:15px">
-Text Color
-</label>
-
-<input
-type="color"
-id="colorPicker"
-value="#ffffff"
-oninput="updateColor()"
->
-
-</div>
-
-
-<div class="bottom-actions">
-
-<button
-class="action export"
-onclick="exportSkin()"
->
-💾 EXPORT
-</button>
-
-<button
-class="action share"
-onclick="shareSkin()"
->
-📤 SHARE
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-
-<input
-type="file"
-id="imageInput"
-accept="image/*"
-style="display:none"
-onchange="loadImage(event)"
->
-
-
-<script>
-
-let selectedElement=null;
-
-let history=[];
-
-let historyIndex=-1;
-
-
-function goHome(){
-
-window.location.href="index.html";
-
-}
-
-
-function uploadImage(){
-
-document
-.getElementById("imageInput")
-.click();
-
-}
-
-
-function loadImage(event){
-
-const file=event.target.files[0];
-
-if(!file)return;
-
-const reader=new FileReader();
-
-reader.onload=function(e){
-
-let old=document.querySelector("#canvas img");
-
-if(old)old.remove();
-
-const img=document.createElement("img");
-
-img.src=e.target.result;
-
-document
-.getElementById("canvas")
-.appendChild(img);
-
-saveHistory();
-
-};
-
-reader.readAsDataURL(file);
-
-}
-
-
-function addText(){
-
-const text=document.createElement("div");
-
-text.className="text-layer";
-
-text.innerText="TANZANIA";
-
-text.style.left="30px";
-
-text.style.top="30px";
-
-text.style.fontSize="35px";
-
-text.style.color="#ffffff";
-
-text.style.opacity="1";
-
-document
-.getElementById("canvas")
-.appendChild(text);
-
-makeDraggable(text);
-
-selectElement(text);
-
-saveHistory();
-
-}
-
-
-function makeDraggable(element){
-
-let dragging=false;
-
-let startX=0;
-
-let startY=0;
-
-let originalX=0;
-
-let originalY=0;
-
-
-element.addEventListener("pointerdown",function(e){
-
-dragging=true;
-
-element.setPointerCapture(e.pointerId);
-
-startX=e.clientX;
-
-startY=e.clientY;
-
-originalX=parseFloat(element.style.left)||0;
-
-originalY=parseFloat(element.style.top)||0;
-
-selectElement(element);
-
-});
-
-
-element.addEventListener("pointermove",function(e){
-
-if(!dragging)return;
-
-const dx=e.clientX-startX;
-
-const dy=e.clientY-startY;
-
-element.style.left=(originalX+dx)+"px";
-
-element.style.top=(originalY+dy)+"px";
-
-});
-
-
-element.addEventListener("pointerup",function(){
-
-dragging=false;
-
-saveHistory();
-
-});
-
-}
-
-
-function selectElement(element){
-
-if(selectedElement){
-
-selectedElement.classList.remove("selected");
-
-}
-
-selectedElement=element;
-
-selectedElement.classList.add("selected");
-
-document
-.getElementById("textInput")
-.value=element.innerText;
-
-document
-.getElementById("sizeRange")
-.value=parseInt(element.style.fontSize)||35;
-
-document
-.getElementById("opacityRange")
-.value=element.style.opacity||1;
-
-}
-
-
-function updateText(){
-
-if(!selectedElement)return;
-
-selectedElement.innerText=
-document.getElementById("textInput").value;
-
-}
-
-
-function updateSize(){
-
-if(!selectedElement)return;
-
-selectedElement.style.fontSize=
-document.getElementById("sizeRange").value+"px";
-
-}
-
-
-function updateOpacity(){
-
-if(!selectedElement)return;
-
-selectedElement.style.opacity=
-document.getElementById("opacityRange").value;
-
-}
-
-
-function updateColor(){
-
-if(!selectedElement)return;
-
-selectedElement.style.color=
-document.getElementById("colorPicker").value;
-
-}
-
-
-function changeBackground(){
-
-const color=prompt(
-"Enter background color:",
-"#20252c"
-);
-
-if(color){
-
-document
-.getElementById("canvas")
-.style.background=color;
-
-saveHistory();
-
-}
-
-}
-
-
-function saveHistory(){
-
-const canvas=
-document.getElementById("canvas");
-
-history=
-history.slice(0,historyIndex+1);
-
-history.push(canvas.innerHTML);
-
-historyIndex++;
-
-}
-
-
-function undo(){
-
-if(historyIndex<=0)return;
-
-historyIndex--;
-
-restoreHistory();
-
-}
-
-
-function redo(){
-
-if(historyIndex>=history.length-1)return;
-
-historyIndex++;
-
-restoreHistory();
-
-}
-
-
-function restoreHistory(){
-
-document
-.getElementById("canvas")
-.innerHTML=
-history[historyIndex];
-
-document
-.querySelectorAll(".text-layer")
-.forEach(makeDraggable);
-
-}
-
-
-async function exportSkin(){
-
-const canvas=
-document.getElementById("canvas");
-
-const html2canvasScript=
-document.createElement("script");
-
-html2canvasScript.src=
-"https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
-
-document.body.appendChild(html2canvasScript);
-
-html2canvasScript.onload=async function(){
-
-const image=
-await html2canvas(canvas);
+    <div class="control">
+      <label>Scale</label>
+      <input id="scaleRange"
+      type="range"
+      min=".2"
+      max="3"
+      step=".05"
+      value="${selected?.scale||1}">
+      <span id="scaleValue">
+      ${Math.round((selected?.scale||1)*100)}%
+      </span>
+    </div>
 
-const link=
-document.createElement("a");
+    <div class="control">
+      <label>Rotate</label>
+      <input id="rotateRange"
+      type="range"
+      min="-180"
+      max="180"
+      value="${selected?.rotation||0}">
+      <span id="rotateValue">
+      ${selected?.rotation||0}°
+      </span>
+    </div>
 
-link.download=
-"TTSS-Skin.png";
+    <div class="control">
+      <label>Opacity</label>
+      <input id="opacityRange"
+      type="range"
+      min="0"
+      max="1"
+      step=".05"
+      value="${selected?.opacity??1}">
+      <span id="opacityValue">
+      ${Math.round((selected?.opacity??1)*100)}%
+      </span>
+    </div>
 
-link.href=
-image.toDataURL("image/png");
+    <div class="row">
 
-link.click();
+      <button class="btn"
+      onclick="flipHorizontal()">
+      ↔ Flip
+      </button>
 
-};
+      <button class="btn"
+      onclick="flipVertical()">
+      ↕ Flip
+      </button>
 
-}
-
-
-async function shareSkin(){
-
-if(!navigator.share){
-
-alert(
-"Browser yako haisupport direct sharing. Tumia Export."
-);
-
-return;
-
-}
-
-await navigator.share({
-
-title:"TTSS Skin",
-
-text:"Created with Tanzania Truck Skin Studio 🇹🇿",
-
-url:window.location.href
-
-});
-
-}
-
-
-saveHistory();
-
-</script>
-
-</body>
-</html>margin-top:15px;
-background:#111419;
-border-radius:18px;
-padding:12px;
-}
-
-.tool-row{
-display:flex;
-gap:8px;
-overflow-x:auto;
-padding-bottom:8px;
-}
-
-.tool{
-flex:0 0 auto;
-border:1px solid #30353c;
-background:#171b20;
-color:white;
-border-radius:12px;
-padding:11px 14px;
-font-size:13px;
-}
-
-.tool:active{
-transform:scale(.96);
-}
-
-.controls{
-margin-top:10px;
-background:#171b20;
-border-radius:14px;
-padding:12px;
-}
-
-.controls label{
-display:block;
-font-size:12px;
-color:#aaa;
-margin-bottom:6px;
-}
-
-.controls input[type="range"]{
-width:100%;
-}
-
-input[type="text"]{
-width:100%;
-background:#0d1013;
-border:1px solid #30353c;
-color:white;
-padding:12px;
-border-radius:10px;
-outline:none;
-}
-
-input[type="color"]{
-width:55px;
-height:40px;
-border:0;
-background:none;
-}
-
-.bottom-actions{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-margin-top:12px;
-}
-
-.action{
-padding:14px;
-border:0;
-border-radius:12px;
-font-weight:bold;
-}
-
-.export{
-background:#00d26a;
-color:#000;
-}
-
-.share{
-background:#222831;
-color:white;
-}
-
-@media(min-width:700px){
-
-.editor{
-display:grid;
-grid-template-columns:2fr 1fr;
-gap:20px;
-}
-
-.tools{
-margin-top:0;
-height:max-content;
-}
-
-}
-
-</style>
-
-</head>
-
-<body>
-
-<header>
-
-<button onclick="goHome()">←</button>
-
-<h1>🎨 TTSS Skin Editor</h1>
-
-</header>
-
-
-<div class="editor">
-
-
-<div class="canvas-area">
-
-<div class="canvas-title">
-SKIN PREVIEW
-</div>
-
-<div id="canvas">
-
-<div class="truck-preview">
-🚛
-</div>
-
-</div>
-
-</div>
-
-
-<div class="tools">
-
-<div class="tool-row">
-
-<button class="tool" onclick="uploadImage()">
-🖼️ Image
-</button>
-
-<button class="tool" onclick="addText()">
-✍️ Text
-</button>
-
-<button class="tool" onclick="changeBackground()">
-🎨 Color
-</button>
-
-<button class="tool" onclick="undo()">
-↩️ Undo
-</button>
-
-<button class="tool" onclick="redo()">
-↪️ Redo
-</button>
-
-</div>
-
-
-<div class="controls">
-
-<label>
-Text
-</label>
-
-<input
-type="text"
-id="textInput"
-placeholder="Select text..."
-oninput="updateText()"
->
-
-
-<label style="margin-top:15px">
-Text Size
-</label>
-
-<input
-type="range"
-id="sizeRange"
-min="10"
-max="100"
-value="35"
-oninput="updateSize()"
->
-
-
-<label style="margin-top:15px">
-Opacity
-</label>
-
-<input
-type="range"
-id="opacityRange"
-min="0"
-max="1"
-step=".05"
-value="1"
-oninput="updateOpacity()"
->
-
-
-<label style="margin-top:15px">
-Text Color
-</label>
-
-<input
-type="color"
-id="colorPicker"
-value="#ffffff"
-oninput="updateColor()"
->
-
-</div>
-
-
-<div class="bottom-actions">
-
-<button
-class="action export"
-onclick="exportSkin()"
->
-💾 EXPORT
-</button>
-
-<button
-class="action share"
-onclick="shareSkin()"
->
-📤 SHARE
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-
-<input
-type="file"
-id="imageInput"
-accept="image/*"
-style="display:none"
-onchange="loadImage(event)"
->
-
-
-<script>
-
-let selectedElement=null;
-
-let history=[];
-
-let historyIndex=-1;
-
-
-function goHome(){
-
-window.location.href="index.html";
-
-}
-
-
-function uploadImage(){
-
-document
-.getElementById("imageInput")
-.click();
-
-}
-
-
-function loadImage(event){
-
-const file=event.target.files[0];
-
-if(!file)return;
-
-const reader=new FileReader();
-
-reader.onload=function(e){
-
-let old=document.querySelector("#canvas img");
-
-if(old)old.remove();
-
-const img=document.createElement("img");
-
-img.src=e.target.result;
-
-document
-.getElementById("canvas")
-.appendChild(img);
-
-saveHistory();
-
-};
-
-reader.readAsDataURL(file);
+      <button class="btn"
+      onclick="centerObject()">
+      Center
+      </button>
 
-}
-
-
-function addText(){
-
-const text=document.createElement("div");
-
-text.className="text-layer";
-
-text.innerText="TANZANIA";
-
-text.style.left="30px";
-
-text.style.top="30px";
-
-text.style.fontSize="35px";
-
-text.style.color="#ffffff";
-
-text.style.opacity="1";
-
-document
-.getElementById("canvas")
-.appendChild(text);
-
-makeDraggable(text);
-
-selectElement(text);
-
-saveHistory();
-
-}
-
-
-function makeDraggable(element){
-
-let dragging=false;
-
-let startX=0;
-
-let startY=0;
-
-let originalX=0;
-
-let originalY=0;
-
-
-element.addEventListener("pointerdown",function(e){
-
-dragging=true;
-
-element.setPointerCapture(e.pointerId);
-
-startX=e.clientX;
-
-startY=e.clientY;
-
-originalX=parseFloat(element.style.left)||0;
-
-originalY=parseFloat(element.style.top)||0;
-
-selectElement(element);
-
-});
-
-
-element.addEventListener("pointermove",function(e){
-
-if(!dragging)return;
-
-const dx=e.clientX-startX;
-
-const dy=e.clientY-startY;
-
-element.style.left=(originalX+dx)+"px";
-
-element.style.top=(originalY+dy)+"px";
-
-});
-
-
-element.addEventListener("pointerup",function(){
-
-dragging=false;
-
-saveHistory();
-
-});
-
-}
-
-
-function selectElement(element){
-
-if(selectedElement){
-
-selectedElement.classList.remove("selected");
-
-}
-
-selectedElement=element;
-
-selectedElement.classList.add("selected");
-
-document
-.getElementById("textInput")
-.value=element.innerText;
-
-document
-.getElementById("sizeRange")
-.value=parseInt(element.style.fontSize)||35;
-
-document
-.getElementById("opacityRange")
-.value=element.style.opacity||1;
-
-}
-
-
-function updateText(){
+    </div>
 
-if(!selectedElement)return;
+  `);
 
-selectedElement.innerText=
-document.getElementById("textInput").value;
 
-}
-
-
-function updateSize(){
-
-if(!selectedElement)return;
-
-selectedElement.style.fontSize=
-document.getElementById("sizeRange").value+"px";
-
-}
-
-
-function updateOpacity(){
-
-if(!selectedElement)return;
-
-selectedElement.style.opacity=
-document.getElementById("opacityRange").value;
-
-}
-
-
-function updateColor(){
-
-if(!selectedElement)return;
-
-selectedElement.style.color=
-document.getElementById("colorPicker").value;
-
-}
-
-
-function changeBackground(){
-
-const color=prompt(
-"Enter background color:",
-"#20252c"
-);
-
-if(color){
-
-document
-.getElementById("canvas")
-.style.background=color;
-
-saveHistory();
-
-}
-
-}
-
-
-function saveHistory(){
-
-const canvas=
-document.getElementById("canvas");
+  document.getElementById(
+    "scaleRange"
+  ).oninput=e=>{
 
-history=
-history.slice(0,historyIndex+1);
+    if(!selected)return;
 
-history.push(canvas.innerHTML);
+    selected.scale =
+    Number(e.target.value);
 
-historyIndex++;
+    document.getElementById(
+      "scaleValue"
+    ).innerText =
+    Math.round(
+      selected.scale*100
+    )+"%";
 
-}
-
-
-function undo(){
-
-if(historyIndex<=0)return;
-
-historyIndex--;
-
-restoreHistory();
-
-}
-
-
-function redo(){
-
-if(historyIndex>=history.length-1)return;
-
-historyIndex++;
-
-restoreHistory();
-
-}
-
+    draw();
 
-function restoreHistory(){
+  };
 
-document
-.getElementById("canvas")
-.innerHTML=
-history[historyIndex];
 
-document
-.querySelectorAll(".text-layer")
-.forEach(makeDraggable);
+  document.getElementById(
+    "rotateRange"
+  ).oninput=e=>{
 
-}
-
-
-async function exportSkin(){
-
-const canvas=
-document.getElementById("canvas");
-
-const html2canvasScript=
-document.createElement("script");
-
-html2canvasScript.src=
-"https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
-
-document.body.appendChild(html2canvasScript);
-
-html2canvasScript.onload=async function(){
+    if(!selected)return;
 
-const image=
-await html2canvas(canvas);
+    selected.rotation =
+    Number(e.target.value);
 
-const link=
-document.createElement("a");
+    document.getElementById(
+      "rotateValue"
+    ).innerText =
+    selected.rotation+"°";
 
-link.download=
-"TTSS-Skin.png";
+    draw();
 
-link.href=
-image.toDataURL("image/png");
+  };
 
-link.click();
 
-};
-
-}
-
-
-async function shareSkin(){
-
-if(!navigator.share){
-
-alert(
-"Browser yako haisupport direct sharing. Tumia Export."
-);
-
-return;
-
-}
+  document.getElementById(
+    "opacityRange"
+  ).oninput=e=>{
 
-await navigator.share({
+    if(!selected)return;
 
-title:"TTSS Skin",
+    selected.opacity =
+    Number(e.target.value);
 
-text:"Created with Tanzania Truck Skin Studio 🇹🇿",
+    document.getElementById(
+      "opacityValue"
+    ).innerText =
+    Math.round(
+      selected.opacity*100
+    )+"%";
 
-url:window.location.href
+    draw();
 
-});
+  };
 
 }
 
 
-saveHistory();
+function flipHorizontal(){
 
-</script>
+  if(!selected)return;
 
-</body>
-</html>editor.html
+  selected.flipX *= -
