@@ -1,109 +1,1041 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 
-<title>TTSS Skin Editor</title>
+<title>TTSS Editor</title>
 
 <style>
 
 *{
-box-sizing:border-box;
-margin:0;
-padding:0;
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  -webkit-tap-highlight-color:transparent;
 }
 
-body{
-font-family:Arial,sans-serif;
-background:#080a0d;
-color:#fff;
-min-height:100vh;
+html,body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:#08090b;
+  color:white;
+  font-family:Arial,Helvetica,sans-serif;
 }
 
-header{
-height:60px;
-background:#111419;
-display:flex;
-align-items:center;
-gap:14px;
-padding:0 15px;
-position:sticky;
-top:0;
-z-index:100;
+button{
+  font-family:inherit;
 }
 
-header button{
-background:none;
-border:0;
-color:#fff;
-font-size:25px;
+.app{
+  width:100%;
+  height:100dvh;
+  display:flex;
+  flex-direction:column;
+  background:#08090b;
 }
 
-header h1{
-font-size:18px;
+/* TOP BAR */
+
+.topbar{
+  height:58px;
+  min-height:58px;
+  background:#101216;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 10px;
+  border-bottom:1px solid #202329;
+  z-index:50;
 }
 
-.editor{
-max-width:1200px;
-margin:auto;
-padding:14px;
+.top-left,
+.top-right{
+  display:flex;
+  align-items:center;
+  gap:5px;
 }
 
-.preview-box{
-background:#111419;
-padding:12px;
-border-radius:18px;
+.icon-btn{
+  width:42px;
+  height:42px;
+  border:0;
+  border-radius:12px;
+  background:transparent;
+  color:white;
+  font-size:20px;
 }
 
-.title{
-font-size:12px;
-color:#888;
-margin-bottom:10px;
+.icon-btn:active{
+  background:#252a31;
 }
 
-#canvas{
-position:relative;
-width:100%;
-aspect-ratio:16/9;
-background:#252a30;
-border-radius:12px;
-overflow:hidden;
-touch-action:none;
+.app-title{
+  font-size:16px;
+  font-weight:900;
 }
 
-#canvas img{
-position:absolute;
-left:0;
-top:0;
-width:100%;
-height:100%;
-object-fit:contain;
+.app-sub{
+  font-size:9px;
+  color:#777;
+  margin-top:2px;
 }
 
-.truck{
-position:absolute;
-inset:0;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:90px;
-opacity:.16;
-pointer-events:none;
+/* WORKSPACE */
+
+.workspace{
+  flex:1;
+  min-height:0;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  background:
+    radial-gradient(
+      circle at center,
+      #1b1e23 0,
+      #0d0f12 45%,
+      #08090b 100%
+    );
 }
 
-.text-layer{
-position:absolute;
-left:30px;
-top:30px;
-font-size:40px;
-font-weight:900;
-white-space:nowrap;
-cursor:move;
+.workspace-grid{
+  position:absolute;
+  inset:0;
+  opacity:.08;
+  background-image:
+    linear-gradient(#fff 1px,transparent 1px),
+    linear-gradient(90deg,#fff 1px,transparent 1px);
+  background-size:25px 25px;
+  pointer-events:none;
+}
+
+/* CANVAS */
+
+.canvas-wrap{
+  position:relative;
+  width:min(94vw,900px);
+  aspect-ratio:16/9;
+  transform-origin:center;
+  touch-action:none;
+}
+
+.canvas{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  border-radius:5px;
+  background:#252a30;
+  box-shadow:
+    0 20px 70px rgba(0,0,0,.65);
+  transform-origin:center;
+}
+
+.canvas img.background{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  pointer-events:none;
+}
+
+.template{
+  position:absolute;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:85px;
+  opacity:.15;
+  pointer-events:none;
+}
+
+/* OBJECT */
+
+.object{
+  position:absolute;
+  transform-origin:center;
+  touch-action:none;
+  user-select:none;
+}
+
+.text-object{
+  white-space:nowrap;
+  font-size:42px;
+  font-weight:900;
+}
+
+.image-object{
+  width:180px;
+  height:120px;
+  object-fit:contain;
+}
+
+.selected{
+  outline:1px dashed #00d26a;
+}
+
+.handles{
+  position:absolute;
+  inset:-10px;
+  border:1px solid #00d26a;
+  pointer-events:none;
+}
+
+.handle{
+  position:absolute;
+  width:12px;
+  height:12px;
+  background:#00d26a;
+  border:2px solid #07120c;
+  border-radius:50%;
+}
+
+.h-tl{
+  left:-6px;
+  top:-6px;
+}
+
+.h-tr{
+  right:-6px;
+  top:-6px;
+}
+
+.h-bl{
+  left:-6px;
+  bottom:-6px;
+}
+
+.h-br{
+  right:-6px;
+  bottom:-6px;
+}
+
+.rotate-handle{
+  position:absolute;
+  left:50%;
+  top:-30px;
+  transform:translateX(-50%);
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  background:#00d26a;
+  border:2px solid #07120c;
+}
+
+.rotate-line{
+  position:absolute;
+  width:1px;
+  height:20px;
+  background:#00d26a;
+  left:50%;
+  top:-20px;
+}
+
+/* ZOOM INFO */
+
+.zoom-info{
+  position:absolute;
+  left:12px;
+  bottom:12px;
+  background:rgba(0,0,0,.55);
+  backdrop-filter:blur(8px);
+  border-radius:10px;
+  padding:7px 10px;
+  font-size:11px;
+  color:#aaa;
+  pointer-events:none;
+}
+
+/* BOTTOM */
+
+.bottom{
+  background:#101216;
+  border-top:1px solid #202329;
+  z-index:60;
+}
+
+.tool-strip{
+  height:74px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  overflow-x:auto;
+  padding:7px 9px;
+}
+
+.tool-strip::-webkit-scrollbar{
+  display:none;
+}
+
+.tool{
+  min-width:62px;
+  height:58px;
+  border:0;
+  background:transparent;
+  color:#aaa;
+  border-radius:12px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:4px;
+  font-size:10px;
+}
+
+.tool-icon{
+  font-size:21px;
+}
+
+.tool:active{
+  background:#252a31;
+}
+
+.tool.active{
+  color:#00d26a;
+  background:#17241e;
+}
+
+/* OPTION PANEL */
+
+.options{
+  max-height:0;
+  overflow:hidden;
+  background:#15181d;
+  transition:max-height .2s ease;
+}
+
+.options.open{
+  max-height:210px;
+  overflow-y:auto;
+}
+
+.panel{
+  padding:12px;
+}
+
+.panel-title{
+  font-size:12px;
+  font-weight:900;
+  color:#ddd;
+  margin-bottom:9px;
+}
+
+.row{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+}
+
+.small-btn{
+  flex:0 0 auto;
+  background:#22262d;
+  color:#eee;
+  border:1px solid #343942;
+  border-radius:10px;
+  padding:10px 12px;
+  font-size:11px;
+}
+
+.slider-row{
+  display:grid;
+  grid-template-columns:60px 1fr 45px;
+  align-items:center;
+  gap:8px;
+  margin:9px 0;
+}
+
+.slider-row label{
+  font-size:11px;
+  color:#aaa;
+}
+
+.slider-value{
+  font-size:10px;
+  color:#00d26a;
+  text-align:right;
+}
+
+input[type=range]{
+  width:100%;
+  accent-color:#00d26a;
+}
+
+input[type=color]{
+  width:48px;
+  height:38px;
+  border:0;
+  background:none;
+}
+
+/* TEXT INPUT */
+
+.text-input{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #343942;
+  background:#0d0f12;
+  color:white;
+  outline:none;
+  margin-bottom:10px;
+}
+
+/* LAYER PANEL */
+
+.layers{
+  max-height:150px;
+  overflow:auto;
+}
+
+.layer{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:#20242a;
+  padding:10px;
+  border-radius:9px;
+  margin-bottom:6px;
+  font-size:11px;
+}
+
+.layer button{
+  border:0;
+  background:none;
+  color:#aaa;
+}
+
+/* DESKTOP */
+
+@media(min-width:800px){
+
+  .tool{
+    min-width:75px;
+  }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+<!-- TOP BAR -->
+
+<div class="topbar">
+
+  <div class="top-left">
+
+    <button class="icon-btn"
+            onclick="goHome()">
+      ←
+    </button>
+
+    <div>
+      <div class="app-title">
+        TTSS
+      </div>
+
+      <div class="app-sub">
+        Skin Editor
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="top-right">
+
+    <button class="icon-btn"
+            onclick="undo()">
+      ↶
+    </button>
+
+    <button class="icon-btn"
+            onclick="redo()">
+      ↷
+    </button>
+
+    <button class="icon-btn"
+            onclick="exportSkin()">
+      💾
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- WORKSPACE -->
+
+<div class="workspace">
+
+  <div class="workspace-grid"></div>
+
+
+  <div class="canvas-wrap"
+       id="canvasWrap">
+
+    <div class="canvas"
+         id="canvas">
+
+      <div class="template">
+        🚛
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="zoom-info"
+       id="zoomInfo">
+    100%
+  </div>
+
+</div>
+
+
+<!-- BOTTOM -->
+
+<div class="bottom">
+
+
+  <!-- OPTIONS -->
+
+  <div class="options"
+       id="options">
+
+    <div class="panel"
+         id="panelContent">
+    </div>
+
+  </div>
+
+
+  <!-- TOOLBAR -->
+
+  <div class="tool-strip">
+
+    <button class="tool"
+            onclick="openText()">
+
+      <span class="tool-icon">
+        T
+      </span>
+
+      Text
+
+    </button>
+
+
+    <button class="tool"
+            onclick="openStickers()">
+
+      <span class="tool-icon">
+        🏷️
+      </span>
+
+      Sticker
+
+    </button>
+
+
+    <button class="tool"
+            onclick="chooseImage()">
+
+      <span class="tool-icon">
+        🖼️
+      </span>
+
+      Image
+
+    </button>
+
+
+    <button class="tool"
+            onclick="openStyle()">
+
+      <span class="tool-icon">
+        ✨
+      </span>
+
+      Style
+
+    </button>
+
+
+    <button class="tool"
+            onclick="openTransform()">
+
+      <span class="tool-icon">
+        🔄
+      </span>
+
+      Transform
+
+    </button>
+
+
+    <button class="tool"
+            onclick="openDraw()">
+
+      <span class="tool-icon">
+        🖌️
+      </span>
+
+      Draw
+
+    </button>
+
+
+    <button class="tool"
+            onclick="openLayers()">
+
+      <span class="tool-icon">
+        ▱
+      </span>
+
+      Layers
+
+    </button>
+
+
+    <button class="tool"
+            onclick="deleteSelected()">
+
+      <span class="tool-icon">
+        🗑️
+      </span>
+
+      Delete
+
+    </button>
+
+  </div>
+
+</div>
+
+
+<input
+  type="file"
+  id="imageInput"
+  accept="image/*"
+  style="display:none"
+  onchange="loadImage(event)"
+>
+
+
+<script>
+
+/* =========================
+   GLOBAL STATE
+========================= */
+
+let selected = null;
+
+let objectId = 0;
+
+let zoom = 1;
+
+let history = [];
+
+let historyIndex = -1;
+
+let drag = null;
+
+
+/* =========================
+   HOME
+========================= */
+
+function goHome(){
+
+  window.location.href =
+    "index.html";
+
+}
+
+
+/* =========================
+   SELECT
+========================= */
+
+function selectObject(el){
+
+  if(selected){
+    selected.classList.remove(
+      "selected"
+    );
+  }
+
+  selected = el;
+
+  if(!selected) return;
+
+  selected.classList.add(
+    "selected"
+  );
+
+}
+
+
+/* =========================
+   CREATE TEXT
+========================= */
+
+function addText(){
+
+  const el =
+    document.createElement("div");
+
+  el.className =
+    "object text-object";
+
+  el.innerText =
+    "TANZANIA";
+
+  el.dataset.id =
+    ++objectId;
+
+  el.dataset.x =
+    "30";
+
+  el.dataset.y =
+    "30";
+
+  el.dataset.rotation =
+    "0";
+
+  el.dataset.scale =
+    "1";
+
+  el.style.left =
+    "30px";
+
+  el.style.top =
+    "30px";
+
+  document
+    .getElementById("canvas")
+    .appendChild(el);
+
+  makeDraggable(el);
+
+  selectObject(el);
+
+  saveHistory();
+
+  openText();
+
+}
+
+
+/* =========================
+   DRAG
+========================= */
+
+function makeDraggable(el){
+
+  el.addEventListener(
+    "pointerdown",
+    startDrag
+  );
+
+}
+
+
+function startDrag(e){
+
+  if(e.target.classList.contains("handle"))
+    return;
+
+  e.preventDefault();
+
+  const el =
+    e.currentTarget;
+
+  selectObject(el);
+
+  drag = {
+
+    startX:e.clientX,
+
+    startY:e.clientY,
+
+    left:parseFloat(el.style.left)||0,
+
+    top:parseFloat(el.style.top)||0
+
+  };
+
+  el.setPointerCapture(
+    e.pointerId
+  );
+
+  el.addEventListener(
+    "pointermove",
+    moveDrag
+  );
+
+  el.addEventListener(
+    "pointerup",
+    endDrag,
+    {once:true}
+  );
+
+}
+
+
+function moveDrag(e){
+
+  if(!drag) return;
+
+  const el =
+    e.currentTarget;
+
+  const dx =
+    e.clientX-drag.startX;
+
+  const dy =
+    e.clientY-drag.startY;
+
+  el.style.left =
+    (drag.left+dx)+"px";
+
+  el.style.top =
+    (drag.top+dy)+"px";
+
+}
+
+
+function endDrag(e){
+
+  const el =
+    e.currentTarget;
+
+  el.removeEventListener(
+    "pointermove",
+    moveDrag
+  );
+
+  drag=null;
+
+  saveHistory();
+
+}
+
+
+/* =========================
+   IMAGE
+========================= */
+
+function chooseImage(){
+
+  document
+    .getElementById("imageInput")
+    .click();
+
+}
+
+
+function loadImage(event){
+
+  const file =
+    event.target.files[0];
+
+  if(!file) return;
+
+  const reader =
+    new FileReader();
+
+  reader.onload =
+    function(e){
+
+      const img =
+        document.createElement("img");
+
+      img.className =
+        "object image-object";
+
+      img.src =
+        e.target.result;
+
+      img.dataset.id =
+        ++objectId;
+
+      img.style.left =
+        "50px";
+
+      img.style.top =
+        "50px";
+
+      document
+        .getElementById("canvas")
+        .appendChild(img);
+
+      makeDraggable(img);
+
+      selectObject(img);
+
+      saveHistory();
+
+    };
+
+  reader.readAsDataURL(file);
+
+}
+
+
+/* =========================
+   TEXT PANEL
+========================= */
+
+function openText(){
+
+  openOptions();
+
+  const panel =
+    document.getElementById(
+      "panelContent"
+    );
+
+  panel.innerHTML = `
+
+    <div class="panel-title">
+      TEXT EDITOR
+    </div>
+
+    <input
+      class="text-input"
+      id="textValue"
+      placeholder="Andika text yako..."
+      value="${selected && selected.classList.contains("text-object")
+        ? selected.innerText
+        : ""}"
+      oninput="changeText(this.value)"
+    >
+
+    <div class="row">
+
+      <button class="small-btn"
+              onclick="textBold()">
+        Bold
+      </button>
+
+      <button class="small-btn"
+              onclick="textItalic()">
+        Italic
+      </button>
+
+      <button class="small-btn"
+              onclick="textOutline()">
+        Outline
+      </button>
+
+      <button class="small-btn"
+              onclick="textShadow()">
+        Shadow
+      </button>
+
+      <button class="small-btn"
+              onclick="textGlow()">
+        Glow
+      </button>
+
+      <button class="small-btn"
+              onclick="textSticker()">
+        Sticker
+      </button>
+
+    </div>
+
+  `;
+
+}
+
+
+function changeText(value){
+
+  if(!selected) return;
+
+  if(!selected.classList.contains(
+    "text-object"
+  )) return;
+
+  selected.innerText =
+    value;
+
+}
+
+
+/* =========================
+   STYLES
+========================= */
+
+function openStyle(){
+
+  openOptions();
+
+  document
+    .getElementById("panelContent")
+    .innerHTML = `
+
+    <div class="panel-title">
+      TEXT STYLES
+    </div>
+
+    <div class="row">
+
+      <button class="small-btn"
+              onclick="textNormal()">
+        Normal
+      </button>
+
+      <button class="small-btn"
+              onclick="textBold()">
+        Bold
+      </button>
+
+      <button class="small-btn"
+              onclick="textItalic()">
+        Italic
+      </button>
+
+      <button class="small-btn"
+              onclick="textOutline()">
+        Outline
+      </button>
+
+      <button class="small-btn"
+              onclick="textShadow()">
+        Shadow
+      </button>
+
+      <button class="small-btn"
+              onclick="textGlow()">
+        Glow
+      </button>
+
+      <button class="small-btn"
+              onclick="text3D()">
+        3D
+      </button>
+
+      <button class="small-btn"
+              onclick="textSticker()">
+        Sticker
+      </button>
+
+  </div>cursor:move;
 user-select:none;
 touch-action:none;
 transform-origin:center;
